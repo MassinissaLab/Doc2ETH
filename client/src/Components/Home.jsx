@@ -44,7 +44,7 @@ const Home = () => {
             <div className="title">
               <i class="fab fa-ethereum"></i> DOC2ETH
             </div>
-            <div className="sub-text">Decentralized & Secured data file transfer and storage.</div>
+            <div className="sub-text">Decentralized & Secured data files transfer and storage.</div>
             <br />
             <div className="sub-text">
               Web App not compatible with your device. Please open on Desktop
@@ -65,7 +65,7 @@ const Home = () => {
             <div className="title">
               <i class="fab fa-ethereum"></i> DOC2ETH
             </div>
-            <div className="sub-text">Decentralized & Secured data file transfer and storage.</div>
+            <div className="sub-text">Decentralized & Secured data files transfer and storage.</div>
             <button className="login-btn" onClick={authHandler}>
               Metamask Login
             </button>
