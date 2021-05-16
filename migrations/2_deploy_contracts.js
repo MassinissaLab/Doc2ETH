@@ -1,5 +1,5 @@
-var Zap = artifacts.require("./Zap.sol");
+var Doc2eth = artifacts.require("./Doc2eth.sol");
 
 module.exports = function(deployer) {
-    deployer.deploy(Zap);
+    deployer.deploy(Doc2eth);
 };

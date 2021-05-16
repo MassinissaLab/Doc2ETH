@@ -1,8 +1,8 @@
-pragma solidity >=0.4.21 <0.7.0;
+pragma solidity ^0.5.3;
 
-contract Zap{
+contract Doc2eth{
     
-    string public name = 'Zap';
+    string public name = 'Doc2eth';
     
     
     struct File {

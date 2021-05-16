@@ -4,7 +4,7 @@ import Popover from "react-awesome-popover";
 import Blockies from "react-blockies";
 
 import getWeb3 from "../getWeb3";
-import Zap from "../contracts/Zap.json";
+import Doc2eth from "../contracts/Doc2eth.json";
 import { ipfs } from "../ipfs.util";
 import Footer from "./Footer";
 import ProgressBar from "./ProgressBar";
@@ -77,10 +77,10 @@ const Dashboard = () => {
 
       const accounts = await web3.eth.getAccounts();
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = Zap.networks[networkId];
+      const deployedNetwork = Doc2eth.networks[networkId];
 
       const instance = new web3.eth.Contract(
-        Zap.abi,
+        Doc2eth.abi,
         deployedNetwork && deployedNetwork.address
       );
 
@@ -652,7 +652,7 @@ const Dashboard = () => {
         <Flex>
           <div>
             <p>
-              <i className="fas fa-project-diagram"></i> Zap |{" "}
+              <i className="fas fa-project-diagram"></i> Doc2eth |{" "}
               <Light> Decentralized file storage platform. </Light>
             </p>
           </div>

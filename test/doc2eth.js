@@ -1,17 +1,17 @@
 const { assert } = require("console")
 
-const Zap = artifacts.require('./Zap.sol')
+const Doc2eth = artifacts.require('./Doc2eth.sol')
 
-contract('Zap', ([deployer, uploader]) => {
-    let zap
+contract('Doc2eth', ([deployer, uploader]) => {
+    let Doc2eth
 
     before(async() => {
-        zap = await Zap.deployed()
+        Doc2eth = await Doc2eth.deployed()
     })
 
 
     it('deploys successfully', async() => {
-        const address = await zap.address
+        const address = await Doc2eth.address
         assert(address != 0x0)
         assert(address != '')
         assert(address != null)
@@ -19,8 +19,8 @@ contract('Zap', ([deployer, uploader]) => {
     })
 
     it('has a name', async() => {
-        const name = await zap.name()
-        assert(name === 'Zap')
+        const name = await Doc2eth.name()
+        assert(name === 'Doc2eth')
     })
 
 
@@ -32,7 +32,7 @@ contract('Zap', ([deployer, uploader]) => {
 
 
     before(async() => {
-        result = await zap.uploadFile(fileHash, fileSize, fileType, fileName)
+        result = await Doc2eth.uploadFile(fileHash, fileSize, fileType, fileName)
     })
 
 
@@ -49,12 +49,12 @@ contract('Zap', ([deployer, uploader]) => {
 
 
     it('get count', async() => {
-        const count = await zap.getCount();
+        const count = await Doc2eth.getCount();
         assert(count == 1);
     })
 
     it('get index file', async() => {
-        const fileAtIndexZero = await zap.getFilesofUser(0);
+        const fileAtIndexZero = await Doc2eth.getFilesofUser(0);
         console.log(fileAtIndexZero[0])
         assert(fileAtIndexZero[0] === fileHash);
         assert(fileAtIndexZero[1] === fileSize);
