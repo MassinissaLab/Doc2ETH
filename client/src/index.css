@@ -1,17 +1,17 @@
 
 .identicon {
-    border-radius: 50%;
-    border: white 1.5px solid;
-    padding: 2px;
+    border-radius: 20%;
+    border: white 2px solid;
+    padding: 5px;
 }
 
 .md {
     font-size: 1.1em;
-    color: #333;
+    color: #000046;
 }
 
 .md-v {
-    color: #003b4e;
+    color: #000046;
     font-size: 2em;
 }
 
@@ -22,7 +22,7 @@
 }
 
 .display {
-    color: #003b4e;
+    color: #000046;
     font-weight: 600;
 }
 
@@ -31,7 +31,7 @@
 }
 
 .sort {
-    background: linear-gradient( 90deg, rgba(77, 1, 180, 1) 0%, rgba(101, 1, 180, 1) 100%);
+    background: linear-gradient(to right,#000046, #1CB5E0);
     color: white;
     padding: 25px;
     width: 40px;
@@ -60,14 +60,29 @@
 
 .primary:hover {
     cursor: pointer;
-    color: #003b4e;
+    color: #1CB5E0;
 }
 
 .primary {
-    color: #8055c6;
+    color: #000046;
     transition: 0.5s;
 }
-
+.trash-b:hover {
+    cursor: pointer;
+    color: #1CB5E0;
+}
+.trash-b {
+    color: #d80000;
+    transition: 0.5s;
+}
+.share-b:hover {
+    cursor: pointer;
+    color: #000046;
+}
+.share-b {
+    color: #1CB5E0;
+    transition: 0.5s;
+}
 .part-bottom {
     height: 5%;
     margin: 20px;
@@ -83,7 +98,7 @@
     bottom: 80px;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #003b4e;
+    background-color: #000046;
     color: white;
     width: max-content;
     height: 50px;
@@ -99,7 +114,7 @@
 .a-input {
     width: 100%;
     height: 20px;
-    border: 2px solid #003b4e;
+    border: 2px solid #000046;
     height: 40px;
     padding: 10px;
     border-radius: 5px;
@@ -109,11 +124,11 @@
 .head-con {
     font-size: 1.5em;
     font-weight: 600;
-    color: #003b4e;
+    color: #000046;
 }
 
 .s-btn {
-    background-color: #003b4e;
+    background-color: #000046;
     color: white;
     padding: 10px;
     border-radius: 5px;
@@ -125,8 +140,8 @@
 }
 
 .c-btn {
-    border: 1px solid #c2aae9;
-    color: #c2aae9;
+    border: 1px solid #000046;
+    color: #000000;
     padding: 10px;
     border-radius: 5px;
 }
@@ -154,9 +169,9 @@
 }
 
 .w-lg {
-    width: 50%;
+    width: 60%;
     font-weight: 600;
-    color: #003b4e;
+    color: #000046;
 }
 
 .center {
@@ -165,7 +180,7 @@
 
 .file-icon {
     font-size: 7em;
-    color: #8055c6;
+    color: #000046;
 }
 
 .sort:hover {
@@ -174,7 +189,7 @@
 }
 
 .ml-2 {
-    margin-right: 10px;
+    margin-right: 0px;
 }
 
 .search {
@@ -190,7 +205,7 @@
 .bar {
     width: 100%;
     height: 20px;
-    /*background-color: #003b4e;*/
+    /*background-color: #000046;*/
     background: linear-gradient(to right,#000046, #1CB5E0);
 }
 
@@ -207,7 +222,7 @@
 .home {
     width: 100%;
     height: 100vh;
-    /*background-color: #003b4e;*/
+    /*background-color: #000046;*/
     background: linear-gradient(to right,#000046, #1CB5E0);
 }
 
@@ -234,7 +249,7 @@
     border: none;
     padding: 20px;
     background-color: white;
-    color: #003b4e;
+    color: #000046;
     border-radius: 10px;
     font-weight: 500;
     transition: 0.5s;
@@ -242,14 +257,14 @@
 
 .login-btn:hover {
     cursor: pointer;
-    /*background-color: #003b4e;*/
+    /*background-color: #000046;*/
     background: linear-gradient(to right,#000046, #1CB5E0);
     color: white;
     border: 1px solid white;
 }
 
 .footer {
-    /*background-color: #003b4e;*/
+    /*background-color: #000046;*/
     background: linear-gradient(to right,#000046, #1CB5E0);
     color: white;
     position: fixed;
@@ -287,7 +302,8 @@
 
 .cancel {
     transition: 0.5s;
-    background: linear-gradient( 90deg, rgba(77, 1, 180, 1) 0%, rgba(101, 1, 180, 1) 100%);
+    /*background: linear-gradient( 90deg, rgba(77, 1, 180, 1) 0%, rgba(101, 1, 180, 1) 100%);*/
+    background: linear-gradient(to right,#000046, #1CB5E0);
     color: white;
     padding: 8px 10px;
     display: flex;

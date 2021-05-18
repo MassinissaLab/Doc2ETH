@@ -13,8 +13,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body{
-    background-color:#F2E3FF;
-    font-family: 'Lato', sans-serif;
+    background-color:#ebf9fc;
+    font-family: 'Helvetica';
   }
 `;
 class App extends Component {

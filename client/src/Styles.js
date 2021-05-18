@@ -7,7 +7,7 @@ export const Wrapper = styled.div `
 
 export const Light = styled.span `
   font-weight: 200;
-  font-size: 0.6em;
+  font-size: 0.7em;
 `;
 
 export const Container = styled.div `
@@ -16,7 +16,7 @@ export const Container = styled.div `
 `;
 
 export const Bar = styled.div `
-  background-color: #f2e3ff;
+  background-color: #e3eaff;
   width: 100%;
   height: 60px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
@@ -33,11 +33,7 @@ export const FileUpload = styled.div `
     cursor: pointer;
   }
   transition: 0.5s;
-  background: linear-gradient(
-    90deg,
-    rgba(77, 1, 180, 1) 0%,
-    rgba(101, 1, 180, 1) 100%
-  );
+  background: linear-gradient(to right,#000046, #1CB5E0);
 
   color: white;
   padding: 30px;
@@ -47,10 +43,10 @@ export const FileUpload = styled.div `
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.4em;
+  font-size: 1.7em;
   position: fixed;
   right: 3%;
-  bottom: 5%;
+  bottom: 7%;
 `;
 
 export const TopBar = styled.div `
@@ -66,11 +62,7 @@ export const TopBar = styled.div `
 `;
 
 export const Account = styled.div `
-  background: linear-gradient(
-    90deg,
-    rgba(77, 1, 180, 1) 0%,
-    rgba(101, 1, 180, 1) 100%
-  );
+  background: linear-gradient(to right,#000046, #1CB5E0);
   height: 150px;
   width: 30%;
   border-radius: 10px;
@@ -79,7 +71,7 @@ export const Account = styled.div `
 export const Flex = styled.div `
   display: flex;
   padding: 10px 40px;
-  color: #893ec5;
+  color: #000046;
   font-weight: 700;
   font-size: 1.5em;
   justify-content: space-between;
@@ -111,17 +103,13 @@ export const AlignCenter = styled.div `
   font-weight: 600;
 `;
 export const SmallButton = styled.div `
-  background: linear-gradient(
-    90deg,
-    rgba(77, 1, 180, 1) 0%,
-    rgba(101, 1, 180, 1) 100%
-  );
+  background: linear-gradient(to right,#000046, #1CB5E0);
   transition: 0.5s;
   padding: 10px;
   border-radius: 8px;
   font-size: 0.6em;
   font-weight: 500;
-  color: #f2e3ff;
+  color: #ebf9fc;
   &:hover {
     opacity: 0.8;
     cursor: pointer;
@@ -141,9 +129,9 @@ export const FileList = styled.div `
 `;
 
 export const File = styled.div `
-  width: 300px;
+  width: 250px;
   margin: 15px;
-  height: 300px;
-  border-radius: 8px;
-  border: 1px solid #b487d9;
+  height: 250px;
+  border-radius: 20px;
+  border: 1.5px solid #000046;
 `;

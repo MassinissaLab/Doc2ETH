@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import Popover from "react-awesome-popover";
 import Blockies from "react-blockies";
-
+//components and utilities import
 import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
 import { ipfs } from "../ipfs.util";
@@ -398,12 +398,12 @@ const Dashboard = () => {
                         })
                       }
                     >
-                      <i className="fas fa-share-alt primary"></i>
+                      <i className="fas fa-share-alt share-b"></i>
                     </p>
                   </div>
                   <div className="ml-2 w-sm">
                     <p onClick={() => removeFile(e[0], "file")}>
-                      <i className="fas fa-trash primary"></i>
+                      <i className="fas fa-trash trash-b"></i>
                     </p>
                   </div>
                 </div>
@@ -471,12 +471,12 @@ const Dashboard = () => {
                           })
                         }
                       >
-                        <i className="fas fa-share-alt primary"></i>
+                        <i className="fas fa-share-alt share-b"></i>
                       </p>
                     </div>
                     <div className="ml-2 w-sm">
                       <p onClick={() => removeFile(e[0], "file")}>
-                        <i className="fas fa-trash primary"></i>
+                        <i className="fas fa-trash trash-b"></i>
                       </p>
                     </div>
                   </div>
@@ -547,12 +547,12 @@ const Dashboard = () => {
                         })
                       }
                     >
-                      <i className="fas fa-share-alt primary"></i>
+                      <i className="fas fa-share-alt share-b"></i>
                     </p>
                   </div>
                   <div className="ml-2 w-sm">
                     <p onClick={() => removeFile(e[0], "share")}>
-                      <i className="fas fa-trash primary"></i>
+                      <i className="fas fa-trash trash-b"></i>
                     </p>
                   </div>
                 </div>
@@ -652,8 +652,8 @@ const Dashboard = () => {
         <Flex>
           <div>
             <p>
-              <i className="fas fa-project-diagram"></i> Doc2eth |{" "}
-              <Light> Decentralized file storage platform. </Light>
+              <i className="fab fa-ethereum"></i> Doc2eth |{" "}
+              <Light> Decentralized & Secured data files transfer and storage. </Light>
             </p>
           </div>
           <div>
@@ -766,7 +766,7 @@ const Dashboard = () => {
         <SearchHolder>
           <div>
             {" "}
-            <Heading>Files</Heading>
+            <Heading>My Files</Heading>
           </div>
           <div className="flex ">
             <div>
@@ -783,7 +783,7 @@ const Dashboard = () => {
         <SearchHolder>
           <div>
             {" "}
-            <Heading>Shared files</Heading>
+            <Heading>Shared Files</Heading>
           </div>
           <div className="flex "></div>
         </SearchHolder>

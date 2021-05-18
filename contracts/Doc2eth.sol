@@ -4,7 +4,7 @@ contract Doc2eth{
     
     string public name = 'Doc2eth';
     
-    
+    //File structure attributes
     struct File {
         string fileId;
         string fileHash;
@@ -15,12 +15,12 @@ contract Doc2eth{
     }
     
 
-    
+    //get all the current user files hashes that have been uploaded by the current user
     mapping(address => File[]) public users;
-
+    // get all shared files hashes that have been shared to the current user
     mapping(address => File[]) public shares;
     
-    
+      //envent on file upload action
      event FileUploaded(
         string fileId,
         string fileHash,
@@ -29,7 +29,7 @@ contract Doc2eth{
         string fileName,
         uint uploadTime
   );
-
+      //event on file sharing action
        event FileShareUploaded(
         string fileId,
         string fileHash,
@@ -41,7 +41,7 @@ contract Doc2eth{
   
   constructor() public {
   }
-    
+   // function of uplading a file  
   function uploadFile(address _address,string memory _fileId,string memory _fileHash, uint _fileSize, string memory _fileType, string memory _fileName) public returns(string memory,string memory,uint, string memory,string memory,uint) {
 
     require(bytes(_fileHash).length > 0);
@@ -72,7 +72,7 @@ contract Doc2eth{
       
     return users[_address].length;
   }
-  
+  //return files of current user
   function getFilesofUser(uint _index, address _address) public view returns(string memory,string memory,uint, string memory,string memory,uint) {
       
       
@@ -83,7 +83,7 @@ contract Doc2eth{
       return (file.fileId,file.fileHash,file.fileSize,file.fileType,file.fileName,file.uploadTime);
     
   }
-
+    //remove file hash from the blockchain
     function removeHash(string memory _fileId, address _address) public {
       
          File[] storage f = users[_address];
@@ -97,7 +97,7 @@ contract Doc2eth{
              
          }
   }
-
+  //share file
   function uploadShareFile(address _to,string memory _fileId,string memory _fileHash, uint _fileSize, string memory _fileType, string memory _fileName) public returns(string memory,string memory,uint, string memory,string memory,uint) {
 
     require(bytes(_fileHash).length > 0);
@@ -123,7 +123,7 @@ contract Doc2eth{
       
     return (file.fileId,file.fileHash,file.fileSize,file.fileType,file.fileName,file.uploadTime);
   }
-  
+  //get the number of shared files
   function getShareCount(address _address) public view returns(uint){
       
     return shares[_address].length;
@@ -139,7 +139,7 @@ contract Doc2eth{
       return (file.fileId,file.fileHash,file.fileSize,file.fileType,file.fileName,file.uploadTime);
     
   }
-
+    // remove hash of a shred files for current user in the blockchain
     function removeShareHash(string memory _fileId,address _address) public {
       
          File[] storage f = shares[_address];
