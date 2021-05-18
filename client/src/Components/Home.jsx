@@ -63,7 +63,7 @@ const Home = () => {
           <div className="bar"></div>
           <div className="mainholder">
             <div className="title">
-              <i class="fab fa-ethereum"></i> DOC2ETH
+              <i class="fab fa-ethereum fa-spin"></i> DOC2ETH
             </div>
             <div className="sub-text">Decentralized & Secured data files transfer and storage.</div>
             <button className="login-btn" onClick={authHandler}>

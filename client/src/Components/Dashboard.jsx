@@ -7,7 +7,6 @@ import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
 import { ipfs } from "../ipfs.util";
 import Footer from "./Footer";
-import ProgressBar from "./ProgressBar";
 import { generateUID } from "../utilities";
 import {
   Wrapper,
@@ -302,7 +301,7 @@ const Dashboard = () => {
       const uploadedFileDetails =
         uploadedFile.events.FileShareUploaded.returnValues;
 
-      //Building file object to add to state
+      //Building file object with its parameters to add to state
       let newAddedFile = {};
       newAddedFile[0] = uploadedFileDetails.fileId;
       newAddedFile[1] = uploadedFileDetails.fileHash;
@@ -314,13 +313,13 @@ const Dashboard = () => {
       const newFilesArray = [newAddedFile, ...fileData.files];
       console.log(newFilesArray);
 
-      // reset the component state of file upload
+      // reset the component state of file upload to empty all temporary parameters
       setstate({
         ...state,
         buffer: null,
         name: null,
         type: null,
-        shareSuccess: "File shared.",
+        shareSuccess: "File Successfuly shared.",
         loading: false,
       });
 
@@ -652,7 +651,7 @@ const Dashboard = () => {
         <Flex>
           <div>
             <p>
-              <i className="fab fa-ethereum"></i> Doc2eth |{" "}
+              <i className="fab fa-ethereum "></i> Doc2eth |{" "}
               <Light> Decentralized & Secured data files transfer and storage. </Light>
             </p>
           </div>
@@ -682,14 +681,14 @@ const Dashboard = () => {
 
       {state.buffer && state.loading === false ? (
         <div className="cancel hover" onClick={cancelUpload}>
-          <i className="fas cancel-icon fa-window-close"></i> Cancel
+          <i class="fas fa-times fa-3x"></i>
         </div>
       ) : null}
 
       <FileUpload>
         {state.loading ? (
           <div>
-            <i className="fas fa-hourglass-half"></i>
+            <i className="fas fa-spinner fa-spin"></i>
           </div>
         ) : !state.buffer ? (
           <div onClick={() => hiddenFileInput.current.click()}>
@@ -746,7 +745,7 @@ const Dashboard = () => {
             <Align className="v-center">
               <div>
                 <div className="md display">
-                  <i className="fas fa-clock md-v"></i>
+                  <i className="fas fa-clock fa-2x"></i>
                   <p>
                     {fileData.files.length > 0
                       ? "Last Uploaded " +
@@ -759,14 +758,11 @@ const Dashboard = () => {
               </div>
             </Align>
           </Holder>
-          <Holder>
-            <ProgressBar fileData={fileData} />
-          </Holder>
         </TopBar>
         <SearchHolder>
           <div>
             {" "}
-            <Heading>My Files</Heading>
+            <Heading>My Data Files</Heading>
           </div>
           <div className="flex ">
             <div>
@@ -783,7 +779,7 @@ const Dashboard = () => {
         <SearchHolder>
           <div>
             {" "}
-            <Heading>Shared Files</Heading>
+            <Heading>Shared Data Files</Heading>
           </div>
           <div className="flex "></div>
         </SearchHolder>

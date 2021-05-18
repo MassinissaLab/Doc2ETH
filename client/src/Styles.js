@@ -32,18 +32,18 @@ export const FileUpload = styled.div `
     opacity: 0.8;
     cursor: pointer;
   }
-  transition: 0.5s;
+  transition: 0.4s;
   background: linear-gradient(to right,#000046, #1CB5E0);
 
   color: white;
-  padding: 30px;
+  padding: 32px;
   border-radius: 100%;
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.7em;
+  font-size: 2em;
   position: fixed;
   right: 3%;
   bottom: 7%;
@@ -64,7 +64,7 @@ export const TopBar = styled.div `
 export const Account = styled.div `
   background: linear-gradient(to right,#000046, #1CB5E0);
   height: 150px;
-  width: 30%;
+  width: 70%;
   border-radius: 10px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.12);
 `;
