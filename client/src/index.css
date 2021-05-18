@@ -257,14 +257,13 @@
 
 .login-btn:hover {
     cursor: pointer;
-    /*background-color: #000046;*/
     background: linear-gradient(to right,#000046, #1CB5E0);
     color: white;
     border: 1px solid white;
 }
 
 .footer {
-    /*background-color: #000046;*/
+    
     background: linear-gradient(to right,#000046, #1CB5E0);
     color: white;
     position: fixed;
@@ -293,7 +292,8 @@
 
 .no-files {
     width: 100%;
-    color: #c2aae9;
+    color: #000046;
+    opacity: 0.4;
 }
 
 .small-font {

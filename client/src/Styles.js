@@ -16,7 +16,7 @@ export const Container = styled.div `
 `;
 
 export const Bar = styled.div `
-  background-color: #e3eaff;
+  background-color: #ebf9fc;
   width: 100%;
   height: 60px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
@@ -25,7 +25,7 @@ export const Bar = styled.div `
 export const Heading = styled.h1 `
   font-size: 2em;
   font-weight: 600;
-  color: rgba(77, 1, 180, 1);
+  color: #000046;
 `;
 export const FileUpload = styled.div `
   &:hover {
@@ -54,7 +54,7 @@ export const TopBar = styled.div `
 
   border-radius: 10px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
-  background-color: #fff;
+  background-color: #ffffff;
   height: 150px;
   display: flex;
   justify-content: space-between;

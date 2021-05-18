@@ -15,17 +15,17 @@ import {
   Heading,
   FileUpload,
   TopBar,
-  Account,
-  Flex,
-  White,
-  Bar,
+  Align,
+  FileList,
+  File,
   Holder,
   SearchHolder,
   AlignCenter,
   SmallButton,
-  Align,
-  FileList,
-  File,
+  White,
+  Bar,
+  Account,
+  Flex, 
 } from "../Styles";
 
 const Dashboard = () => {
@@ -139,7 +139,7 @@ const Dashboard = () => {
         }
       }
 
-      console.log("SHARED", shareFiles);
+      console.log("SHARED FILE", shareFiles);
 
       setSharedFiles({
         ...shareFile,
@@ -354,15 +354,17 @@ const Dashboard = () => {
           const fileName = e[4];
           let fileIcon;
           if (fileName.endsWith("pdf")) {
-            fileIcon = "far fa-file-pdf fa-5x primary";
-          } else if (fileName.endsWith("png")) {
-            fileIcon = "far fa-image fa-5x file-icon primary";
-          } else if (fileName.endsWith("jpg") || fileName.endsWith("jpeg")) {
-            fileIcon = "fas fa-image fa-5x file-icon primary";
+            fileIcon = "fas fa-file-pdf fa-5x primary";
+          } else if (fileName.endsWith("jpg") || fileName.endsWith("jpeg")|| fileName.endsWith("png")) {
+            fileIcon = "fas fa-file-image fa-5x primary";
           } else if (fileName.endsWith("ppt") || fileName.endsWith("pptx")) {
-            fileIcon = "far fa-file-powerpoint fa-5x primary";
-          } else if (fileName.endsWith("doc" || fileName.endsWith("docx"))) {
-            fileIcon = "far fa-file-word fa-5x primary";
+            fileIcon = "fas fa-file-powerpoint fa-5x primary";
+          } else if (fileName.endsWith("doc") || fileName.endsWith("docx")) {
+            fileIcon = "fas fa-file-word fa-5x primary";
+          }else if (fileName.endsWith("txt")) {
+            fileIcon = "fas fa-file-alt fa-5x primary";
+          }else if (fileName.endsWith("zip")|| fileName.endsWith("rar")) {
+            fileIcon = "fas fa-file-archive fa-5x primary";
           }
           return (
             <File key={index}>
@@ -427,15 +429,17 @@ const Dashboard = () => {
             const fileName = e[4];
             let fileIcon;
             if (fileName.endsWith("pdf")) {
-              fileIcon = "far fa-file-pdf fa-5x primary";
-            } else if (fileName.endsWith("png")) {
-              fileIcon = "far fa-image fa-5x file-icon primary";
-            } else if (fileName.endsWith("jpg") || fileName.endsWith("jpeg")) {
-              fileIcon = "fas fa-image fa-5x file-icon primary";
+            fileIcon = "fas fa-file-pdf fa-5x primary";
+            } else if (fileName.endsWith("jpg") || fileName.endsWith("jpeg")|| fileName.endsWith("png")) {
+              fileIcon = "fas fa-file-image fa-5x primary";
             } else if (fileName.endsWith("ppt") || fileName.endsWith("pptx")) {
-              fileIcon = "far fa-file-powerpoint fa-5x primary";
-            } else if (fileName.endsWith("doc" || fileName.endsWith("docx"))) {
-              fileIcon = "far fa-file-word fa-5x primary";
+              fileIcon = "fas fa-file-powerpoint fa-5x primary";
+            } else if (fileName.endsWith("doc") || fileName.endsWith("docx")) {
+              fileIcon = "fas fa-file-word fa-5x primary";
+            }else if (fileName.endsWith("txt")) {
+              fileIcon = "fas fa-file-alt fa-5x primary";
+            }else if (fileName.endsWith("zip")|| fileName.endsWith("rar")) {
+              fileIcon = "fas fa-file-archive fa-5x primary";
             }
             return (
               <File key={index}>
@@ -487,7 +491,7 @@ const Dashboard = () => {
       ) : (
         <div className="center no-files">
           <div>
-            <i className="far fa-folder-open light-primary"></i>
+            <i className="fas fa-folder-open light-primary"></i>
           </div>
           <div>
             <p className="small-font">No files</p>
@@ -503,15 +507,17 @@ const Dashboard = () => {
           const fileName = e[4];
           let fileIcon;
           if (fileName.endsWith("pdf")) {
-            fileIcon = "far fa-file-pdf fa-5x primary";
-          } else if (fileName.endsWith("png")) {
-            fileIcon = "far fa-image fa-5x file-icon primary";
-          } else if (fileName.endsWith("jpg") || fileName.endsWith("jpeg")) {
-            fileIcon = "fas fa-image fa-5x file-icon primary";
+            fileIcon = "fas fa-file-pdf fa-5x primary";
+          } else if (fileName.endsWith("jpg") || fileName.endsWith("jpeg")|| fileName.endsWith("png")) {
+            fileIcon = "fas fa-file-image fa-5x primary";
           } else if (fileName.endsWith("ppt") || fileName.endsWith("pptx")) {
-            fileIcon = "far fa-file-powerpoint fa-5x primary";
-          } else if (fileName.endsWith("doc" || fileName.endsWith("docx"))) {
-            fileIcon = "far fa-file-word fa-5x primary";
+            fileIcon = "fas fa-file-powerpoint fa-5x primary";
+          } else if (fileName.endsWith("doc") || fileName.endsWith("docx")) {
+            fileIcon = "fas fa-file-word fa-5x primary";
+          }else if (fileName.endsWith("txt")) {
+            fileIcon = "fas fa-file-alt fa-5x primary";
+          }else if (fileName.endsWith("zip")|| fileName.endsWith("rar")) {
+            fileIcon = "fas fa-file-archive fa-5x primary";
           }
           return (
             <File key={index}>
@@ -563,7 +569,7 @@ const Dashboard = () => {
     ) : (
       <div className="center no-files">
         <div>
-          <i className="far fa-folder-open light-primary"></i>
+          <i className="fas fa-folder-open light-primary"></i>
         </div>
         <div>
           <p className="small-font">No files</p>
@@ -696,7 +702,7 @@ const Dashboard = () => {
           </div>
         ) : (
           <div onClick={() => handleSubmit()}>
-            <i className="fa fa-upload" aria-hidden="true"></i>
+            <i className="fa fa-file-upload" aria-hidden="true"></i>
           </div>
         )}
       </FileUpload>
@@ -707,10 +713,10 @@ const Dashboard = () => {
               <div>
                 <Blockies
                   seed={window.ethereum.selectedAddress}
-                  size={10}
+                  size={9}
                   scale={10}
                   color="#dfe"
-                  bgcolor="#aaa"
+                  bgcolor="#ffe"
                   className="identicon"
                   spotcolor="#000"
                 />
