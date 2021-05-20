@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import Popover from "react-awesome-popover";
 import Blockies from "react-blockies";
 //components and utilities import
+import usdb from "../media/UnivBlida.png"
+import ifeg from "../media/logo_ifeg.png"
 import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
 import { ipfs } from "../ipfs.util";
@@ -662,17 +664,9 @@ const Dashboard = () => {
             </p>
           </div>
           <div>
-            <SmallButton
-              onClick={() =>
-                window.open(
-                  `https://etherscan.io/address/${window.ethereum.selectedAddress}`,
-                  "_blank",
-                  "noopener,noreferrer"
-                )
-              }
-            >
-              <p>Etherscan</p>
-            </SmallButton>
+              <img className="usdb-logo" src={usdb} alt="USDB1 logo"/>
+              {" "}
+              <img className="ifeg-logo" src={ifeg} alt="IFEG logo"/>
           </div>
         </Flex>
       </Bar>
