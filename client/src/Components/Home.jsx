@@ -4,13 +4,6 @@ import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
 import Footer from "./Footer";
 
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
 const Home = () => {
   const [isConnected, setConnected] = useState(null);
@@ -49,39 +42,37 @@ const Home = () => {
 
       let allusers = [];
 
-      console.log("authHandler "+accounts[0]);
       
-              
-            
-      
-
-        /*
+     /*
+        var ad='0xE0386eE30aF7027783C1Ade7986a525005c8A6Ef';
         const adduser = await instance.methods
           .addUser(
             "service one",
             "Vizla",
-            accounts[0]
+            "duncan",
+            ad
           )
           .send({ from: accounts[0] });*/
-        console.log("user added "+accounts[0]);
+       
        
       
       
-      const usersCount =  instance.methods.getCountusers().call();
+      const usersCount =  await instance.methods.getCountusers().call();
 
       for (var userIndex = 0; userIndex < usersCount; userIndex++) {
-        const USER = instance.methods.getAllUserInfo(userIndex).call();
+        const USER = await instance.methods.getAllUserInfo(userIndex).call();
         
         allusers.push(USER);
+        console.log(USER)
 
       }
 
       for (var uuserIndex = 0; uuserIndex < allusers.length; uuserIndex++) {
-        console.log(allusers[uuserIndex]);
+        console.log("user["+uuserIndex+"] "+allusers[uuserIndex][3]);
 
       }
 
-      const userExists = allusers.some(user => user.uaddress === accounts[0]);
+      const userExists = await allusers.some(user => user.uaddress === accounts[0]);
       if(userExists) {
          console.log(" exist "+accounts[0]);
          history.push("/dashboard");

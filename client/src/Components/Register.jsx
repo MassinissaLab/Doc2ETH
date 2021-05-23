@@ -6,7 +6,11 @@ import Blockies from "react-blockies";
 import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
 import Footer from "./Footer";
-
+import {
+  TopBar,
+  Bar,
+  Flex, 
+} from "../Styles";
 
 const Register = () => {
 const [showAddUser, setAddUser] = useState({
@@ -56,7 +60,7 @@ useEffect(() => {
     }
   };
 
-  const RegisterHandler = (_service,_firstname,_adress) => {
+  const RegisterHandler = async(_service,_firstname,_lastname,_adress) => {
     try {
       //modified 
       /*
@@ -66,9 +70,16 @@ useEffect(() => {
       const deployedNetwork = Doc2eth.networks[networkId];
       const instance = new web3.eth.Contract(Doc2eth.abi,deployedNetwork && deployedNetwork.address);
       */
-      console.log("register @ wallet "+state.accounts[0]);
-
-      
+      //console.log("register @ wallet "+state.accounts[0]);
+      await console.log("User added : "+_service+"|"+_firstname+"|"+_lastname+"|"+_adress);
+      const adduser = await state.contract.methods
+          .addUser(
+            _service,
+            _firstname,
+            _lastname,
+            _adress
+          ).send({ from: state.accounts[0] });
+      console.log("User added : "+_service+"|"+_firstname+"|"+_lastname+"|"+_adress);
       
     } catch (error) {
       alert(
@@ -81,10 +92,14 @@ useEffect(() => {
   return (
     <div className="home">
       <div className="bar"></div>
+      <div className="title-register v-center">
+          <i className="fas fa-address-book fa-1x"></i> DOC2ETH
+        </div>
       <div className="mainholder">
-        <div className="share-to v-center">
-          <div className="share-form">
-            <div className="head-con">Register to network</div>
+        
+        <div className="add-to-network  v-center">
+          <div className="add-form">
+            <div className="head-con">Register To Wallets Book</div>
             <div>
               <input
                 onChange={(e) => {
@@ -107,19 +122,19 @@ useEffect(() => {
                 }}
                 className="a-input"
                 type="text"
-                placeholder="firstname"
+                placeholder="First Name"
                 name="firstname"
               />
               <input
                 onChange={(e) => {
                   setAddUser({
                     ...showAddUser,
-                    latname: e.target.value,
+                    lastname: e.target.value,
                   });
                 }}
                 className="a-input"
                 type="text"
-                placeholder="lastname"
+                placeholder="Last Name"
                 name="lasttname"
               />
             </div>
@@ -128,10 +143,10 @@ useEffect(() => {
                 <div
                   onClick={() => {
                     //AddUser(showAddUser.servicename,showAddUser.firstname,showAddUser.lastname,state.accounts[0]);
-                   // RegisterHandler();
-                    //console.log("register @ wallet "+state.accounts[0]);
-                    console.log(showAddUser.servicename+"|"+showAddUser.firstname+"|"+showAddUser.lastname+"|"+state.accounts[0]);
-
+                   
+                    console.log("clicked register @ wallet "+state.accounts[0]);
+                    //console.log(showAddUser.servicename+"|"+showAddUser.firstname+"|"+showAddUser.lastname+"|"+state.accounts[0]);
+                    RegisterHandler(showAddUser.servicename,showAddUser.firstname,showAddUser.lastname,state.accounts[0]);
 
                     setAddUser({
                       ...showAddUser,
