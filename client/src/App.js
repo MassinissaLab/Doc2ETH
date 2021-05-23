@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Home from "./Components/Home";
 import Dashboard from "./Components/Dashboard";
+import Register from "./Components/Register";
 import { Route, BrowserRouter as Router } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 
@@ -25,6 +26,7 @@ class App extends Component {
         <Router>
           <Route exact path="/" component={Home} />
           <Route path="/dashboard" component={Dashboard} />
+          <Route path="/register" component={Register} />
         </Router>
       </>
     );

@@ -13,14 +13,26 @@ contract Doc2eth{
         string fileName;
         uint uploadTime;
     }
-    
+
+    struct User{
+      string service;
+      string firstname;
+      string lastname;
+      address userwallet;
+
+    }
+
 
     //get all the current user files hashes that have been uploaded by the current user
     mapping(address => File[]) public users;
     // get all shared files hashes that have been shared to the current user
     mapping(address => File[]) public shares;
+
     
+    // all users 
+    User[] public allUsers;
       //envent on file upload action
+
      event FileUploaded(
         string fileId,
         string fileHash,
@@ -38,9 +50,49 @@ contract Doc2eth{
         string fileName,
         uint uploadTime
   );
+        event UserAdded(
+        string service,
+        string firstname,
+        string lastname,
+        address userwallet
+  );
   
   constructor() public {
   }
+  //add new user info
+  function addUser(string memory _service,string memory _firstname,string memory _lastname,address _userwallet) public payable returns(string memory userservice,string memory ufirstname,string memory ulastname,address uaddress) {
+    require(bytes(_service).length > 0,"Invalid Service Name");
+    require(bytes(_firstname).length > 0,"Invalid First Name");
+    require(bytes(_lastname).length > 0,"Invalid Last Name");
+          
+    allUsers.push(User(_service,_firstname,_lastname,_userwallet));
+    userservice=_service;
+    ufirstname=_firstname;
+    ulastname=_lastname;
+    uaddress=_userwallet;
+
+    emit UserAdded(_service,_firstname,_lastname,_userwallet);
+    
+  }
+
+   function getCountusers() public view returns(uint){
+      
+    return allUsers.length;
+  }
+  //get all user info by index
+  function getAllUserInfo(uint _index) public view returns(string memory userservice,string memory ufirstname,string memory ulastname,address uaddress) {
+      
+
+      require(_index>=0);
+      User memory tmp = allUsers[_index];
+      userservice=tmp.service;
+      ufirstname=tmp.firstname;
+      ulastname=tmp.lastname;
+      uaddress=tmp.userwallet;
+        
+  }
+ 
+
    // function of uplading a file  
   function uploadFile(address _address,string memory _fileId,string memory _fileHash, uint _fileSize, string memory _fileType, string memory _fileName) public returns(string memory,string memory,uint, string memory,string memory,uint) {
 
@@ -140,7 +192,7 @@ contract Doc2eth{
     
   }
     // remove hash of a shred files for current user in the blockchain
-    function removeShareHash(string memory _fileId,address _address) public {
+  function removeShareHash(string memory _fileId,address _address) public {
       
          File[] storage f = shares[_address];
   
@@ -153,5 +205,6 @@ contract Doc2eth{
              
          }
   }
+
     
 }

@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@material-ui/core": "^4.11.4",
         "@truffle/hdwallet-provider": "^1.4.0",
         "blockies": "0.0.2",
         "ipfs-http-client": "^48.1.0",

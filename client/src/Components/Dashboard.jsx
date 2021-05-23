@@ -85,7 +85,7 @@ const Dashboard = () => {
         deployedNetwork && deployedNetwork.address
       );
 
-      setstate({
+      await setstate({
         ...state,
         contract: instance,
         accounts,
