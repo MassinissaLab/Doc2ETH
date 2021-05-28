@@ -76,7 +76,7 @@ export const Flex = styled.div `
   font-size: 1.5em;
   justify-content: space-between;
 `;
-export const White = styled.p `
+export const Info = styled.p `
   color: white;
 
   &:hover {

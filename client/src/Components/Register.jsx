@@ -6,11 +6,7 @@ import Blockies from "react-blockies";
 import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
 import Footer from "./Footer";
-import {
-  TopBar,
-  Bar,
-  Flex, 
-} from "../Styles";
+
 
 const Register = () => {
 const [showAddUser, setAddUser] = useState({
@@ -23,7 +19,7 @@ const [state, setstate] = useState({
   web3: null,
   contract: null,
 });
-
+const history = useHistory();
 useEffect(() => {
   const address = window.ethereum.selectedAddress;
   if (address === null) {
@@ -71,7 +67,7 @@ useEffect(() => {
       const instance = new web3.eth.Contract(Doc2eth.abi,deployedNetwork && deployedNetwork.address);
       */
       //console.log("register @ wallet "+state.accounts[0]);
-      await console.log("User added : "+_service+"|"+_firstname+"|"+_lastname+"|"+_adress);
+      
       const adduser = await state.contract.methods
           .addUser(
             _service,
@@ -80,6 +76,8 @@ useEffect(() => {
             _adress
           ).send({ from: state.accounts[0] });
       console.log("User added : "+_service+"|"+_firstname+"|"+_lastname+"|"+_adress);
+      alert(_firstname+" "+_lastname+ ",Your Information are added sucessfully");
+       history.push("/");
       
     } catch (error) {
       alert(
@@ -142,10 +140,9 @@ useEffect(() => {
               <div className="j-center flex">
                 <div
                   onClick={() => {
-                    //AddUser(showAddUser.servicename,showAddUser.firstname,showAddUser.lastname,state.accounts[0]);
+                   
                    
                     console.log("clicked register @ wallet "+state.accounts[0]);
-                    //console.log(showAddUser.servicename+"|"+showAddUser.firstname+"|"+showAddUser.lastname+"|"+state.accounts[0]);
                     RegisterHandler(showAddUser.servicename,showAddUser.firstname,showAddUser.lastname,state.accounts[0]);
 
                     setAddUser({

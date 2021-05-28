@@ -63,15 +63,15 @@ const Home = () => {
         const USER = await instance.methods.getAllUserInfo(userIndex).call();
         
         allusers.push(USER);
-        console.log(USER)
+        
 
       }
-
+      /*
       for (var uuserIndex = 0; uuserIndex < allusers.length; uuserIndex++) {
         console.log("user["+uuserIndex+"] "+allusers[uuserIndex][3]);
 
       }
-
+     */
       const userExists = await allusers.some(user => user.uaddress === accounts[0]);
       if(userExists) {
          console.log(" exist "+accounts[0]);

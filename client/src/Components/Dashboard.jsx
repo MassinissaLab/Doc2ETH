@@ -24,7 +24,7 @@ import {
   SearchHolder,
   AlignCenter,
   SmallButton,
-  White,
+  Info,
   Bar,
   Account,
   Flex, 
@@ -44,6 +44,11 @@ const Dashboard = () => {
     name: null,
     ipfsError: null,
     loading: false,
+  });
+
+  const [allUsers, setUsers] = useState({
+    infousers: [],
+    currentuser: [],
   });
 
   const [fileData, setFiles] = useState({
@@ -98,7 +103,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     getData();
-  }, [state.contract]);
+    
+  }, [state.contract,allUsers.currentuser,allUsers.infousers]);
 
   const cancelUpload = () => {
     console.log("cancel upload");
@@ -110,14 +116,19 @@ const Dashboard = () => {
     });
   };
   const getData = async () => {
-    const { accounts, contract } = state;
+    const { accounts,web3, contract } = state;
     if (contract) {
       const filesCount = await contract.methods
         .getCount(window.ethereum.selectedAddress)
         .call();
 
+      const usersCount =  await contract.methods.getCountusers().call();
+
       let files = [];
       let shareFiles = [];
+      let listusers = [];
+      let theuser = [];
+
 
       for (var fileIndex = 0; fileIndex < filesCount; fileIndex++) {
         const FILE = await contract.methods
@@ -141,8 +152,29 @@ const Dashboard = () => {
         }
       }
 
-      console.log("SHARED FILE", shareFiles);
 
+
+     for (var userIndex = 0; userIndex < usersCount; userIndex++) {
+        const USER = await contract.methods.getAllUserInfo(userIndex).call();
+        const uad = web3.utils.toChecksumAddress(window.ethereum.selectedAddress);
+        //console.log("current= "+uad);;
+        if(USER[3]!== uad){
+          listusers.push(USER);
+          //console.log("user "+userIndex+": "+USER[3]);
+        }else{
+          theuser.push(USER);
+          //console.log("currentuser: "+theuser[0][3]);
+        }
+        
+      }
+ 
+
+      //console.log("SHARED FILE", shareFiles);
+      setUsers({
+        ...allUsers,
+        infousers: listusers,
+        currentuser: theuser,
+      });
       setSharedFiles({
         ...shareFile,
         files: shareFiles,
@@ -151,6 +183,8 @@ const Dashboard = () => {
         ...fileData,
         files,
       });
+
+
     }
   };
 
@@ -718,15 +752,12 @@ const Dashboard = () => {
               <AlignCenter>
                 <Popover action="hover" overlayColor="rgba(0,0,0,0)">
                   <div>
-                    <White>
-                      {window.ethereum.selectedAddress &&
-                        window.ethereum.selectedAddress.substr(0, 6) +
-                          "..." +
-                          window.ethereum.selectedAddress.substr(37, 42)}
-                    </White>
+                   
+                      {allUsers.currentuser.map(infou => ( <Info>{infou.userservice}{" | "}{infou.ufirstname}{" "}{infou.ulastname}</Info>))}
+                   
                   </div>
                   <div className="sm">
-                    <White>{window.ethereum.selectedAddress}</White>
+                    <Info>{window.ethereum.selectedAddress}</Info>
                   </div>
                 </Popover>
               </AlignCenter>
