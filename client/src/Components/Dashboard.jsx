@@ -636,18 +636,25 @@ const Dashboard = () => {
           <div className="share-form">
             <div className="head-con">Share to</div>
             <div>
-              <input
-                onChange={(e) => {
-                  setShareModal({
-                    ...showShareModal,
-                    address: e.target.value,
-                  });
-                }}
-                className="a-input"
-                type="text"
-                placeholder="Wallet address"
-                name="address"
-              />
+
+              {/*<input
+                              onChange={(e) => {
+                                setShareModal({
+                                  ...showShareModal,
+                                  address: e.target.value,
+                                });
+                              }}
+                              className="a-input"
+                              type="text"
+                              placeholder="Wallet address"
+                              name="address"
+                            />*/}
+                <select className="a-input"  onChange={(e) => {setShareModal({...showShareModal,address: e.target.value,})}}>
+		            {allUsers.infousers.map((userinfos) => (
+		              <option value={userinfos.uaddress}>{userinfos.userservice}{" | "}{userinfos.ufirstname}{" "}{userinfos.ulastname}</option>
+		            ))}
+		        </select>
+
             </div>
             <div>
               <div className="j-center flex">
