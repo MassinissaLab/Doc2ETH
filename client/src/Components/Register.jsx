@@ -110,7 +110,7 @@ useEffect(() => {
                 type="text"
                 placeholder="Service name"
                 name="service"
-                required
+                
               />
               <input
                 onChange={(e) => {
@@ -123,7 +123,7 @@ useEffect(() => {
                 type="text"
                 placeholder="First Name"
                 name="firstname"
-                required
+                
               />
               <input
                 onChange={(e) => {
@@ -136,7 +136,7 @@ useEffect(() => {
                 type="text"
                 placeholder="Last Name"
                 name="lasttname"
-                required
+                
               />
             </div>
             <div>
@@ -144,9 +144,14 @@ useEffect(() => {
                 <div
                   onClick={() => {
                    
-                   
-                    console.log("clicked register @ wallet "+state.accounts[0]);
-                    RegisterHandler(showAddUser.servicename,showAddUser.firstname,showAddUser.lastname,state.accounts[0]);
+                    if(showAddUser.servicename==="" ||showAddUser.firstname==="" ||showAddUser.lastname===""){
+                       alert( 'Please ,fill all the input fields');
+
+                    }else{
+                      console.log("clicked register @ wallet "+state.accounts[0]);
+                      RegisterHandler(showAddUser.servicename,showAddUser.firstname,showAddUser.lastname,state.accounts[0]);
+                    }
+                    
 
                     setAddUser({
                       ...showAddUser,
