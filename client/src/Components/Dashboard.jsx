@@ -636,22 +636,14 @@ const Dashboard = () => {
           <div className="share-form">
             <div className="head-con">Share to</div>
             <div>
-
-              {/*<input
-                              onChange={(e) => {
-                                setShareModal({
-                                  ...showShareModal,
-                                  address: e.target.value,
-                                });
-                              }}
-                              className="a-input"
-                              type="text"
-                              placeholder="Wallet address"
-                              name="address"
-                            />*/}
-                <select className="a-input"  onChange={(e) => {setShareModal({...showShareModal,address: e.target.value,})}}>
+                <select className="a-input" defaultValue ="choose" onChange={(e) => {
+							                	setShareModal({...showShareModal,
+							                		address: e.target.value,
+							                		})
+							                	}}>
+					<option  value="choose" disabled  hidden>Please Choose a receiver...</option>
 		            {allUsers.infousers.map((userinfos) => (
-		              <option value={userinfos.uaddress}>{userinfos.userservice}{" | "}{userinfos.ufirstname}{" "}{userinfos.ulastname}</option>
+		              <option className="md-vlist" value={userinfos.uaddress}>{userinfos.userservice}{" | "}{userinfos.ufirstname}{" "}{userinfos.ulastname}</option>
 		            ))}
 		        </select>
 
@@ -660,6 +652,7 @@ const Dashboard = () => {
               <div className="j-center flex">
                 <div
                   onClick={() => {
+                    console.log("Shared to : "+showShareModal.address);
                     shareFile(showShareModal.file, showShareModal.address);
 
                     setShareModal({
@@ -760,7 +753,7 @@ const Dashboard = () => {
                 <Popover action="hover" overlayColor="rgba(0,0,0,0)">
                   <div>
                    
-                      {allUsers.currentuser.map(infou => ( <Info>{infou.userservice}{" | "}{infou.ufirstname}{" "}{infou.ulastname}</Info>))}
+                     {allUsers.currentuser.map(infou => ( <Info>{infou.userservice}{" | "}{infou.ufirstname}{" "}{infou.ulastname}</Info>))}
                    
                   </div>
                   <div className="sm">

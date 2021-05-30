@@ -110,6 +110,7 @@ useEffect(() => {
                 type="text"
                 placeholder="Service name"
                 name="service"
+                required
               />
               <input
                 onChange={(e) => {
@@ -122,6 +123,7 @@ useEffect(() => {
                 type="text"
                 placeholder="First Name"
                 name="firstname"
+                required
               />
               <input
                 onChange={(e) => {
@@ -134,6 +136,7 @@ useEffect(() => {
                 type="text"
                 placeholder="Last Name"
                 name="lasttname"
+                required
               />
             </div>
             <div>
@@ -154,6 +157,7 @@ useEffect(() => {
                     });
                   }}
                   className="s-btn"
+                  type="submit"
                 >
                   Add
                 </div>
