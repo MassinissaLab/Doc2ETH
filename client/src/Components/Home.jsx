@@ -98,14 +98,14 @@ const Home = () => {
 
 
   if (isConnected === null || isConnected === true) {
-      return <h1>Connecting...</h1>;
+      return <h1>Connecting to Doc2eth ...</h1>;
     } else if (isConnected === false) {
       return (
         <div className="home">
           <div className="bar"></div>
           <div className="mainholder">
             <div className="title">
-              <i className="fab fa-ethereum fa-spin"></i> DOC2ETH
+              <i className="fab fa-ethereum"></i> DOC2ETH
             </div>
             <div className="sub-text">Decentralized & Secured data files transfer and storage.</div>
             <button className="login-btn" onClick={authHandler}>

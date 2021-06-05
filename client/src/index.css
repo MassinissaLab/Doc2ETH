@@ -73,6 +73,10 @@
     color: #000046;
     transition: 0.5s;
 }
+.primary-bis {
+    color: #000046;
+    transition: 0.5s;
+}
 .trash-b:hover {
     cursor: pointer;
     color: #1CB5E0;
@@ -220,9 +224,10 @@
     padding: 10px;
     height: 50px;
     width: 400px;
-    border-radius: 10px;
-    border: rgba(77, 1, 180, 1) solid 2px;
-    color: rgb(125, 125, 125);
+    border-radius: 6.9px;
+    border: #000046 solid 2px;
+    color: #000046;
+    box-shadow: 0 5px 10px #000046;
 }
 
 .bar {

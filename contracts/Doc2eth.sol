@@ -80,7 +80,8 @@ contract Doc2eth{
     return allUsers.length;
   }
   //get all user info by index
-  function getAllUserInfo(uint _index) public view returns(string memory userservice,string memory ufirstname,string memory ulastname,address uaddress) {
+  function getAllUserInfo(uint _index) public view returns
+  (string memory userservice,string memory ufirstname,string memory ulastname,address uaddress) {
       
 
       require(_index>=0);
@@ -96,16 +97,12 @@ contract Doc2eth{
    // function of uplading a file  
   function uploadFile(address _address,string memory _fileId,string memory _fileHash, uint _fileSize, string memory _fileType, string memory _fileName) public returns(string memory,string memory,uint, string memory,string memory,uint) {
 
-    require(bytes(_fileHash).length > 0);
-    require(bytes(_fileId).length > 0);
-
-    require(bytes(_fileType).length > 0);
-
-    require(bytes(_fileName).length > 0);
-
-    require(_address != address(0));
-
-    require(_fileSize>0);
+    require(bytes(_fileHash).length > 0,"Invalid File Hash");
+    require(bytes(_fileId).length > 0,"Invalid File ID");
+    require(bytes(_fileType).length > 0,"Invalid File Type);
+    require(bytes(_fileName).length > 0,"Invalid Service Name");
+    require(_address != address(0),"Invalid address");
+    require(_fileSize>0,"Invalid File Size");
     
     users[_address].push(File(_fileId,_fileHash, _fileSize, _fileType, _fileName, now));
 
@@ -125,7 +122,9 @@ contract Doc2eth{
     return users[_address].length;
   }
   //return files of current user
-  function getFilesofUser(uint _index, address _address) public view returns(string memory,string memory,uint, string memory,string memory,uint) {
+
+  function getFilesofUser(uint _index, address _address)
+  public view returns(string memory,string memory,uint, string memory,string memory,uint) {
       
       
       require(_index>=0);
@@ -152,16 +151,12 @@ contract Doc2eth{
   //share file
   function uploadShareFile(address _to,string memory _fileId,string memory _fileHash, uint _fileSize, string memory _fileType, string memory _fileName) public returns(string memory,string memory,uint, string memory,string memory,uint) {
 
-    require(bytes(_fileHash).length > 0);
-    require(bytes(_fileId).length > 0);
-
-    require(bytes(_fileType).length > 0);
-
-    require(bytes(_fileName).length > 0);
-
-    require(_to!=address(0));
-
-    require(_fileSize>0);
+    require(bytes(_fileHash).length > 0,"Invalid File Hash");
+    require(bytes(_fileId).length > 0,"Invalid File ID");
+    require(bytes(_fileType).length > 0,"Invalid File Type);
+    require(bytes(_fileName).length > 0,"Invalid Service Name");
+    require(_to!=address(0),"Invalid receiver address");
+    require(_fileSize>0,"Invalid File Size");
     
     shares[_to].push(File(_fileId,_fileHash, _fileSize, _fileType, _fileName, now));
 
@@ -175,7 +170,9 @@ contract Doc2eth{
       
     return (file.fileId,file.fileHash,file.fileSize,file.fileType,file.fileName,file.uploadTime);
   }
+
   //get the number of shared files
+
   function getShareCount(address _address) public view returns(uint){
       
     return shares[_address].length;

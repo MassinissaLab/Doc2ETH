@@ -201,7 +201,7 @@ const Dashboard = () => {
     try {
       const res = await ipfs.add(state.buffer);
 
-      console.log("IPFS RESPONSE", res);
+      console.log("IPFS RESPONSE OF UPLOAD", res);
       const FILE_ID = generateUID();
       const FILE_HASH = res.path;
       const FILE_SIZE = res.size;
@@ -219,7 +219,7 @@ const Dashboard = () => {
 
       const uploadedFileDetails = uploadedFile.events.FileUploaded.returnValues;
 
-      //Building file object to add to state
+      //Building file object to add to state with all attributs
       let newAddedFile = {};
       newAddedFile[0] = uploadedFileDetails.fileId;
       newAddedFile[1] = uploadedFileDetails.fileHash;
@@ -246,7 +246,7 @@ const Dashboard = () => {
     } catch (error) {
       setstate({
         ...state,
-        ipfsError: "Upload Error",
+        ipfsError: "IPFS Upload Error",
         loading: false,
       });
       console.log("ERROR IPFS", error);
@@ -390,17 +390,17 @@ const Dashboard = () => {
           const fileName = e[4];
           let fileIcon;
           if (fileName.endsWith("pdf")) {
-            fileIcon = "fas fa-file-pdf fa-5x primary";
+            fileIcon = "fas fa-file-pdf fa-5x primary-bis";
           } else if (fileName.endsWith("jpg") || fileName.endsWith("jpeg")|| fileName.endsWith("png")) {
-            fileIcon = "fas fa-file-image fa-5x primary";
+            fileIcon = "fas fa-file-image fa-5x primary-bis";
           } else if (fileName.endsWith("ppt") || fileName.endsWith("pptx")) {
-            fileIcon = "fas fa-file-powerpoint fa-5x primary";
+            fileIcon = "fas fa-file-powerpoint fa-5x primary-bis";
           } else if (fileName.endsWith("doc") || fileName.endsWith("docx")) {
-            fileIcon = "fas fa-file-word fa-5x primary";
+            fileIcon = "fas fa-file-word fa-5x primary-bis";
           }else if (fileName.endsWith("txt")) {
-            fileIcon = "fas fa-file-alt fa-5x primary";
+            fileIcon = "fas fa-file-alt fa-5x primary-bis";
           }else if (fileName.endsWith("zip")|| fileName.endsWith("rar")) {
-            fileIcon = "fas fa-file-archive fa-5x primary";
+            fileIcon = "fas fa-file-archive fa-5x primary-bis";
           }
           return (
             <File key={index}>
@@ -421,7 +421,7 @@ const Dashboard = () => {
                     </p>
                   </div>
                   <div className="center w-lg">
-                    <p className="hover">
+                    <p>
                       {e[4].length > 15 ? `${e[4].slice(0, 15)}...` : e[4]}
                     </p>
                   </div>
@@ -465,17 +465,17 @@ const Dashboard = () => {
             const fileName = e[4];
             let fileIcon;
             if (fileName.endsWith("pdf")) {
-            fileIcon = "fas fa-file-pdf fa-5x primary";
+            fileIcon = "fas fa-file-pdf fa-5x primary-bis";
             } else if (fileName.endsWith("jpg") || fileName.endsWith("jpeg")|| fileName.endsWith("png")) {
-              fileIcon = "fas fa-file-image fa-5x primary";
+              fileIcon = "fas fa-file-image fa-5x primary-bis";
             } else if (fileName.endsWith("ppt") || fileName.endsWith("pptx")) {
-              fileIcon = "fas fa-file-powerpoint fa-5x primary";
+              fileIcon = "fas fa-file-powerpoint fa-5x primary-bis";
             } else if (fileName.endsWith("doc") || fileName.endsWith("docx")) {
-              fileIcon = "fas fa-file-word fa-5x primary";
+              fileIcon = "fas fa-file-word fa-5x primary-bis";
             }else if (fileName.endsWith("txt")) {
-              fileIcon = "fas fa-file-alt fa-5x primary";
+              fileIcon = "fas fa-file-alt fa-5x primary-bis";
             }else if (fileName.endsWith("zip")|| fileName.endsWith("rar")) {
-              fileIcon = "fas fa-file-archive fa-5x primary";
+              fileIcon = "fas fa-file-archive fa-5x primary-bis";
             }
             return (
               <File key={index}>
@@ -496,7 +496,7 @@ const Dashboard = () => {
                       </p>
                     </div>
                     <div className="center w-lg">
-                      <p className="hover">
+                      <p>
                         {e[4].length > 15 ? `${e[4].slice(0, 15)}...` : e[4]}
                       </p>
                     </div>
@@ -543,17 +543,17 @@ const Dashboard = () => {
           const fileName = e[4];
           let fileIcon;
           if (fileName.endsWith("pdf")) {
-            fileIcon = "fas fa-file-pdf fa-5x primary";
+            fileIcon = "fas fa-file-pdf fa-5x primary-bis";
           } else if (fileName.endsWith("jpg") || fileName.endsWith("jpeg")|| fileName.endsWith("png")) {
-            fileIcon = "fas fa-file-image fa-5x primary";
+            fileIcon = "fas fa-file-image fa-5x primary-bis";
           } else if (fileName.endsWith("ppt") || fileName.endsWith("pptx")) {
-            fileIcon = "fas fa-file-powerpoint fa-5x primary";
+            fileIcon = "fas fa-file-powerpoint fa-5x primary-bis";
           } else if (fileName.endsWith("doc") || fileName.endsWith("docx")) {
-            fileIcon = "fas fa-file-word fa-5x primary";
+            fileIcon = "fas fa-file-word fa-5x primary-bis";
           }else if (fileName.endsWith("txt")) {
             fileIcon = "fas fa-file-alt fa-5x primary";
           }else if (fileName.endsWith("zip")|| fileName.endsWith("rar")) {
-            fileIcon = "fas fa-file-archive fa-5x primary";
+            fileIcon = "fas fa-file-archive fa-5x primary-bis";
           }
           return (
             <File key={index}>
@@ -574,7 +574,7 @@ const Dashboard = () => {
                     </p>
                   </div>
                   <div className="center w-lg">
-                    <p className="hover">
+                    <p>
                       {e[4].length > 15 ? `${e[4].slice(0, 15)}...` : e[4]}
                     </p>
                   </div>
@@ -715,7 +715,7 @@ const Dashboard = () => {
 
       {state.buffer && state.loading === false ? (
         <div className="cancel hover" onClick={cancelUpload}>
-          <i class="fas fa-times fa-3x"></i>
+          <i className="fas fa-times fa-3x"></i>
         </div>
       ) : null}
 
@@ -753,7 +753,7 @@ const Dashboard = () => {
                 <Popover action="hover" overlayColor="rgba(0,0,0,0)">
                   <div>
                    
-                     {allUsers.currentuser.map(infou => ( <Info>{infou.userservice}{" | "}{infou.ufirstname}{" "}{infou.ulastname}</Info>))}
+                     {allUsers.currentuser.map(infou => ( <Info key="currentuser">{infou.userservice}{" | "}{infou.ufirstname}{" "}{infou.ulastname}</Info>))}
                    
                   </div>
                   <div className="sm">
@@ -800,7 +800,7 @@ const Dashboard = () => {
               <input
                 type="text"
                 className="search"
-                placeholder="Search"
+                placeholder="Search for a file ..."
                 onChange={searchHandler}
               />
             </div>
