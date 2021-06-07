@@ -3,8 +3,11 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@ceramicnetwork/http-client": "^1.0.6",
+        "@kyc-crypto/ipfs-crypt": "^1.0.1",
         "@material-ui/core": "^4.11.4",
         "@truffle/hdwallet-provider": "^1.4.0",
+        "@virgilsecurity/e3kit-node": "^2.4.3",
         "blockies": "0.0.2",
         "ipfs-http-client": "^48.1.0",
         "react": "16.11.0",
@@ -14,6 +17,8 @@
         "react-router-dom": "^5.2.0",
         "react-scripts": "3.2.0",
         "styled-components": "^5.2.1",
+        "virgil-crypto": "^4.2.2",
+        "virgil-sdk": "^6.1.2",
         "web3": "1.2.2"
     },
     "scripts": {

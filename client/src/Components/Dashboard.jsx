@@ -9,7 +9,7 @@ import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
 import { ipfs } from "../ipfs.util";
 import Footer from "./Footer";
-import { generateUID } from "../utilities";
+import { generateUID,generateKeys,aesKeyiv,encryptAES} from "../utilities";
 import {
   Wrapper,
   Light,
@@ -29,6 +29,8 @@ import {
   Account,
   Flex, 
 } from "../Styles";
+const crypto = require('crypto');
+//const { IpfsCrypt } = require('@kyc-crypto/ipfs-crypt');
 
 const Dashboard = () => {
   const hiddenFileInput = useRef();
@@ -38,6 +40,7 @@ const Dashboard = () => {
     accounts: null,
     web3: null,
     contract: null,
+    reader: null,
     buffer: null,
     type: null,
     shareSuccess: "",
@@ -110,6 +113,7 @@ const Dashboard = () => {
     console.log("cancel upload");
     setstate({
       ...state,
+      reader: null,
       buffer: null,
       name: null,
       type: null,
@@ -229,6 +233,7 @@ const Dashboard = () => {
       newAddedFile[5] = uploadedFileDetails.uploadTime;
 
       const newFilesArray = [newAddedFile, ...fileData.files];
+      
       console.log(newFilesArray);
       setFiles({
         ...fileData,
@@ -265,14 +270,22 @@ const Dashboard = () => {
 
   const convertToBuffer = async (reader, type, name) => {
     const buffer = await Buffer.from(reader.result);
+    const  { key, iv } = await aesKeyiv();
+    
+    console.log("AES key & IV = ",{ key, iv });
     console.log("BUFFER", buffer);
+    console.log("BUFFER length = ", buffer.length);
+    //console.log("READER file = ",reader);
+
     setstate({
       ...state,
+      reader,
       buffer,
       type,
       name,
     });
   };
+
 
   const removeFile = async (fileId, type) => {
     const { accounts, contract } = state;
@@ -352,6 +365,7 @@ const Dashboard = () => {
       // reset the component state of file upload to empty all temporary parameters
       setstate({
         ...state,
+        reader: null,
         buffer: null,
         name: null,
         type: null,
