@@ -99,7 +99,7 @@ contract Doc2eth{
 
     require(bytes(_fileHash).length > 0,"Invalid File Hash");
     require(bytes(_fileId).length > 0,"Invalid File ID");
-    require(bytes(_fileType).length > 0,"Invalid File Type);
+    require(bytes(_fileType).length > 0,"Invalid File Type");
     require(bytes(_fileName).length > 0,"Invalid Service Name");
     require(_address != address(0),"Invalid address");
     require(_fileSize>0,"Invalid File Size");
@@ -153,7 +153,7 @@ contract Doc2eth{
 
     require(bytes(_fileHash).length > 0,"Invalid File Hash");
     require(bytes(_fileId).length > 0,"Invalid File ID");
-    require(bytes(_fileType).length > 0,"Invalid File Type);
+    require(bytes(_fileType).length > 0,"Invalid File Type");
     require(bytes(_fileName).length > 0,"Invalid Service Name");
     require(_to!=address(0),"Invalid receiver address");
     require(_fileSize>0,"Invalid File Size");

@@ -31,3 +31,11 @@ export const aesKeyiv = () => {
 
   return { key, iv };
 };
+
+
+export const encryptAES = (buffer, secretKey, iv) => {
+  const cipher = crypto.createCipheriv('aes-256-ctr', secretKey, iv);
+  const data = cipher.update(buffer);
+  const encrypted = Buffer.concat([data, cipher.final()]);
+  return encrypted.toString('hex');
+};

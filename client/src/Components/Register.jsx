@@ -166,20 +166,7 @@ useEffect(() => {
                 >
                   Add
                 </div>
-                <div
-                  onClick={() => {
-                    setAddUser({
-                      ...showAddUser,
-                      servicename: "",
-                      firstname: "",
-                      lastname:"",
-                      
-                    });
-                  }}
-                  className="c-btn"
-                >
-                  Cancel
-                </div>
+
               </div>
            
             </div>

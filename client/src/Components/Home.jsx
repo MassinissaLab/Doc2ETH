@@ -41,19 +41,6 @@ const Home = () => {
       );
 
       let allusers = [];
-
-      
-     /*
-        var ad='0xE0386eE30aF7027783C1Ade7986a525005c8A6Ef';
-        const adduser = await instance.methods
-          .addUser(
-            "service one",
-            "Vizla",
-            "duncan",
-            ad
-          )
-          .send({ from: accounts[0] });*/
-       
        
       
       
@@ -66,12 +53,7 @@ const Home = () => {
         
 
       }
-      /*
-      for (var uuserIndex = 0; uuserIndex < allusers.length; uuserIndex++) {
-        console.log("user["+uuserIndex+"] "+allusers[uuserIndex][3]);
 
-      }
-     */
       const userExists = await allusers.some(user => user.uaddress === accounts[0]);
       if(userExists) {
          console.log(" exist "+accounts[0]);
@@ -83,8 +65,7 @@ const Home = () => {
             history.push("/register");
              
             
-            
-        
+  
       }
 
       

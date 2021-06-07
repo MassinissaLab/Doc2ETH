@@ -9,7 +9,7 @@ import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
 import { ipfs } from "../ipfs.util";
 import Footer from "./Footer";
-import { generateUID,generateKeys,aesKeyiv,encryptAES} from "../utilities";
+import { generateUID,generateKeys,aesKeyiv,encryptAES } from "../utilities";
 import {
   Wrapper,
   Light,
@@ -269,12 +269,13 @@ const Dashboard = () => {
   };
 
   const convertToBuffer = async (reader, type, name) => {
-    const buffer = await Buffer.from(reader.result);
+    const nobuffer = await Buffer.from(reader.result);
     const  { key, iv } = await aesKeyiv();
-    
+    const buffer = await encryptAES(nobuffer,key,iv);
     console.log("AES key & IV = ",{ key, iv });
-    console.log("BUFFER", buffer);
-    console.log("BUFFER length = ", buffer.length);
+    console.log("BUFFER", nobuffer);
+    console.log("BUFFER length = ", nobuffer.length);
+    console.log("Buffer encryptAES",buffer);
     //console.log("READER file = ",reader);
 
     setstate({
