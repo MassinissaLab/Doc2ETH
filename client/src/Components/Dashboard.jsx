@@ -9,7 +9,7 @@ import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
 import { ipfs } from "../ipfs.util";
 import Footer from "./Footer";
-import { generateUID,generateKeys,aesKeyiv,encryptAES } from "../utilities";
+import { generateUID,generateKeys,aesKeyiv,encryptAES,decryptAES} from "../utilities";
 import {
   Wrapper,
   Light,
@@ -30,7 +30,7 @@ import {
   Flex, 
 } from "../Styles";
 const crypto = require('crypto');
-//const { IpfsCrypt } = require('@kyc-crypto/ipfs-crypt');
+
 
 const Dashboard = () => {
   const hiddenFileInput = useRef();
@@ -45,6 +45,8 @@ const Dashboard = () => {
     type: null,
     shareSuccess: "",
     name: null,
+    key : null,
+    iv : null,
     ipfsError: null,
     loading: false,
   });
@@ -117,6 +119,8 @@ const Dashboard = () => {
       buffer: null,
       name: null,
       type: null,
+      key : null,
+      iv : null,
     });
   };
   const getData = async () => {
@@ -210,6 +214,16 @@ const Dashboard = () => {
       const FILE_HASH = res.path;
       const FILE_SIZE = res.size;
 
+      const chunks = []
+        for await (const chunk of ipfs.cat('/ipfs/'+res.path)) {
+          chunks.push(chunk);
+      }
+      
+      const content = await decryptAES(chunks,state.key,state.iv);
+      console.log('DECRYPTION --------');
+      console.log('key:', state.key, 'iv:', state.iv);
+      console.log('contents:', content.length);
+      
       const uploadedFile = await contract.methods
         .uploadFile(
           window.ethereum.selectedAddress,
@@ -246,6 +260,8 @@ const Dashboard = () => {
         buffer: null,
         name: null,
         type: null,
+        key : null,
+        iv : null,
         loading: false,
       });
     } catch (error) {
@@ -284,6 +300,8 @@ const Dashboard = () => {
       buffer,
       type,
       name,
+      key,
+      iv,
     });
   };
 

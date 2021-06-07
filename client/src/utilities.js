@@ -39,3 +39,10 @@ export const encryptAES = (buffer, secretKey, iv) => {
   const encrypted = Buffer.concat([data, cipher.final()]);
   return encrypted.toString('hex');
 };
+
+export const decryptAES = (buffer, secretKey, iv) => {
+  const decipher = crypto.createDecipheriv('aes-256-ctr', secretKey, iv);
+  const data = decipher.update(buffer);
+  const decrpyted = Buffer.concat([data, decipher.final()]);
+  return decrpyted;
+};
