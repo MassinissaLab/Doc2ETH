@@ -46,3 +46,24 @@ export const decryptAES = (buffer, secretKey, iv) => {
   const decrpyted = Buffer.concat([data, decipher.final()]);
   return decrpyted;
 };
+
+export const mergearrays = (arraylist) => {
+	// Get the total length of all arrays.
+	var length = 0;
+	arraylist.forEach(item => {
+	  length += item.length;
+	});
+
+	// Create a new array with total length and merge all source arrays.
+	var mergedArray = new Uint8Array(length);
+	var offset = 0;
+	arraylist.forEach(item => {
+	  mergedArray.set(item, offset);
+	  offset += item.length;
+	});
+
+
+
+	return mergedArray;
+
+};
