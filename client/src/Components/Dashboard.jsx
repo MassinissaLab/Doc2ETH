@@ -233,11 +233,15 @@ const Dashboard = () => {
       
       //const  econt= Buffer.from(ebuf, 'hex');
       const content = await decryptAES(ebuf,state.key,state.iv);
-      const buff = Buffer.from(content, 'hex');
+      const buff = Buffer.from(content, 'base64');
       console.log('DECRYPTION --------');
       console.log('key:', state.key, 'iv:', state.iv);
       console.log('content:', content.length);
       console.log("Buffer decrypted AES",buff);
+
+      const blob = new Blob([buff],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+      const srcBlob = await window.URL.createObjectURL(blob);
+      await window.open(srcBlob);
      /* const test = await Buffer.from(content, 'hex');
       
 
@@ -308,18 +312,20 @@ const Dashboard = () => {
     const file = e.target.files[0];
     let reader = new window.FileReader();
     reader.readAsArrayBuffer(file);
+    //reader.readAsDataURL(file);
     reader.onloadend = () => convertToBuffer(reader, file.type, file.name);
   };
 
   const convertToBuffer = async (reader, type, name) => {
     const nobuffer = await Buffer.from(reader.result);
+
     const  { key, iv } = await aesKeyiv();
     const bbuffer = await encryptAES(nobuffer,key,iv);
-    const buffer = await Buffer.from(bbuffer,'hex');
+    const buffer = await Buffer.from(bbuffer,'base64');
     console.log("AES key & IV = ",{ key, iv });
     console.log("BUFFER", nobuffer);
     //console.log("BUFFER length = "+ nobuffer.length +"BUFFER length = "+buffer.length);
-    console.log("Buffer encryptAES",bbuffer);
+    //console.log("Buffer encryptAES",bbuffer);
     console.log("Buffer encryptAES",buffer);
     //console.log("READER file = ",reader);
 

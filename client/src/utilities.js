@@ -37,8 +37,9 @@ export const encryptAES = (buffer, secretKey, iv) => {
   const cipher = crypto.createCipheriv('aes-256-ctr', secretKey, iv);
   const data = cipher.update(buffer);
   const encrypted = Buffer.concat([data, cipher.final()]);
-  return encrypted.toString('hex');
+  return encrypted;
 };
+
 
 export const decryptAES = (buffer, secretKey, iv) => {
   const decipher = crypto.createDecipheriv('aes-256-ctr', secretKey, iv);
@@ -46,6 +47,7 @@ export const decryptAES = (buffer, secretKey, iv) => {
   const decrpyted = Buffer.concat([data, decipher.final()]);
   return decrpyted;
 };
+
 
 export const mergearrays = (arraylist) => {
 	// Get the total length of all arrays.
