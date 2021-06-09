@@ -30,7 +30,6 @@ import {
   Flex, 
 } from "../Styles";
 const crypto = require('crypto');
-const fs = require('fs');
 
 
 const Dashboard = () => {
@@ -223,44 +222,34 @@ const Dashboard = () => {
           chunks.push(chunk);
       }
 
-      const merged = await mergearrays(chunks);
-      console.log(merged);
-    
+      const ebuf = await mergearrays(chunks);
+      console.log("Merged ",ebuf);
+      //const econtent = ebuf.slice(0).toString('utf8');
+      
       //const buf = Buffer.concat(edata)
       //const buf = await Buffer.from(chunks,'utf8');
       //console.log("Buffer encrpted AES",chunks);
       //const stbuff = await chunks.slice(0).toString('utf8');
-      /*
       
+      //const  econt= Buffer.from(ebuf, 'hex');
       const content = await decryptAES(ebuf,state.key,state.iv);
-      const test = await Buffer.from(content, 'hex');
-      
+      const buff = Buffer.from(content, 'hex');
       console.log('DECRYPTION --------');
       console.log('key:', state.key, 'iv:', state.iv);
       console.log('content:', content.length);
-      console.log("Buffer encrpted AES",ebuf);
-      console.log("Buffer decrypted AES",content);
+      console.log("Buffer decrypted AES",buff);
+     /* const test = await Buffer.from(content, 'hex');
+      
+
       */
 
       //console.log("Buffer decrypted AES hex ",test);
-      /*
-      let path = ''+state.name+'';
-
-      // open the file in writing mode, adding a callback function where we do the actual writing
-      await fs.open(path, 'w', function(err, fd) {
-          if (err) {
-              throw 'could not open file: ' + err;
-          }
-
-          // write the contents of the buffer, from position 0 to the end, to the file descriptor returned in opening our file
-          fs.write(fd, buffer, 0, buffer.length, null, function(err) {
-              if (err) throw 'error writing file: ' + err;
-              fs.close(fd, function() {
-                  console.log('wrote the file successfully');
-              });
-          });
-      });
       
+      //const path = ''+state.name+'';
+
+
+
+      /*
       const uploadedFile = await contract.methods
         .uploadFile(
           window.ethereum.selectedAddress,
@@ -326,10 +315,11 @@ const Dashboard = () => {
     const nobuffer = await Buffer.from(reader.result);
     const  { key, iv } = await aesKeyiv();
     const bbuffer = await encryptAES(nobuffer,key,iv);
-    const buffer = await Buffer.from(bbuffer,'utf8');
-    //console.log("AES key & IV = ",{ key, iv });
+    const buffer = await Buffer.from(bbuffer,'hex');
+    console.log("AES key & IV = ",{ key, iv });
     console.log("BUFFER", nobuffer);
     //console.log("BUFFER length = "+ nobuffer.length +"BUFFER length = "+buffer.length);
+    console.log("Buffer encryptAES",bbuffer);
     console.log("Buffer encryptAES",buffer);
     //console.log("READER file = ",reader);
 
