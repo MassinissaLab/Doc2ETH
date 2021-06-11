@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState} from "react";
 import { useHistory } from "react-router-dom";
-import Popover from "react-awesome-popover";
-import Blockies from "react-blockies";
+
+
 //components and utilities import
 import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
@@ -23,7 +23,7 @@ const history = useHistory();
 useEffect(() => {
   const address = window.ethereum.selectedAddress;
   if (address === null) {
-    //history.push("/");
+    history.push("/");
   }
   setup();
 
@@ -58,16 +58,6 @@ useEffect(() => {
 
   const RegisterHandler = async(_service,_firstname,_lastname,_adress) => {
     try {
-      //modified 
-      /*
-      const web3 = await getWeb3();
-      const accounts = await web3.eth.getAccounts();
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = Doc2eth.networks[networkId];
-      const instance = new web3.eth.Contract(Doc2eth.abi,deployedNetwork && deployedNetwork.address);
-      */
-      //console.log("register @ wallet "+state.accounts[0]);
-      
       const adduser = await state.contract.methods
           .addUser(
             _service,

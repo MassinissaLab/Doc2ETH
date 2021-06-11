@@ -711,7 +711,7 @@ const Dashboard = () => {
                           ...showShareModal,
                           file: e,
                           show: true,
-                          ownershipe:"ownerfile",
+                          ownershipe:"sharedfile",
                         })
                       }
                     >
@@ -770,7 +770,7 @@ const Dashboard = () => {
                                 }}>
           <option  value="choose" disabled  hidden>Please Choose a receiver...</option>
                 {allUsers.infousers.map((userinfos) => (
-                  <option className="md-vlist" value={userinfos.uaddress}>{userinfos.userservice}{" | "}{userinfos.ufirstname}{" "}{userinfos.ulastname}</option>
+                  <option key={userinfos.uaddress} className="md-vlist" value={userinfos.uaddress}>{userinfos.userservice}{" | "}{userinfos.ufirstname}{" "}{userinfos.ulastname}</option>
                 ))}
             </select>
 
