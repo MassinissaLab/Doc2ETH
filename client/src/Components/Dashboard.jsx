@@ -332,6 +332,38 @@ const Dashboard = () => {
     });
   };
 
+  const retreiveFile = async (fileIndex,ipfshash) => {
+      const { accounts, contract } = state;
+      const ipfsPath = '/ipfs/'+ipfshash;
+      const FKEY = await contract.methods.getFilekey(fileIndex, window.ethereum.selectedAddress).call();
+
+      console.log('concat key ' ,FKEY);
+       
+      /*
+      const chunks = []
+        for await (const chunk of ipfs.cat(ipfsPath)) {
+          chunks.push(chunk);
+      }
+
+      const ebuf = await mergearrays(chunks);
+      console.log("Merged ",ebuf);
+
+      
+      const content = await decryptAES(ebuf,state.key,state.iv);
+      const buff = Buffer.from(content, 'base64');
+      console.log('DECRYPTION --------');
+      console.log('key:', state.key, 'iv:', state.iv);
+      console.log('content:', content.length);
+      console.log("Buffer decrypted AES",buff);
+      console.log('File Type:', state.type);
+
+      const blob = new Blob([buff],{type:state.type});
+      const srcBlob = await window.URL.createObjectURL(blob);
+      await window.open(srcBlob);
+      */
+      
+  };
+
 
   const removeFile = async (fileId, type) => {
     const { accounts, contract } = state;
@@ -549,7 +581,9 @@ const Dashboard = () => {
                     <div className="ml-2 w-sm">
                       <p
                         onClick={() =>
-                          window.open(`https://gateway.ipfs.io/ipfs/${e[1]}`)
+                          //window.open(`https://gateway.ipfs.io/ipfs/${e[1]}`)
+                          retreiveFile(index,e[1])
+                          
                         }
                       >
                         <i className="fas fa-download primary"></i>
