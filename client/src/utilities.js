@@ -69,3 +69,15 @@ export const mergearrays = (arraylist) => {
 	return mergedArray;
 
 };
+
+
+export const urlBlob = (docbuffer,doctype) => {
+
+	const blob = new Blob([docbuffer],{type:doctype});
+    const srcBlob = window.URL.createObjectURL(blob);
+
+    return srcBlob;
+
+};
+
+

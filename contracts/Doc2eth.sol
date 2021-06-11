@@ -3,7 +3,7 @@ pragma solidity ^0.5.3;
 contract Doc2eth{
     
     string public name = 'Doc2eth';
-    
+
     //File structure attributes
     struct File {
         string fileId;
@@ -11,7 +11,10 @@ contract Doc2eth{
         uint fileSize;
         string fileType;
         string fileName;
-        uint uploadTime;
+        string key;
+        
+        
+        
     }
 
     struct User{
@@ -28,7 +31,7 @@ contract Doc2eth{
     // get all shared files hashes that have been shared to the current user
     mapping(address => File[]) public shares;
 
-    
+
     // all users 
     User[] public allUsers;
       //envent on file upload action
@@ -38,8 +41,8 @@ contract Doc2eth{
         string fileHash,
         uint fileSize,
         string fileType,
-        string fileName,
-        uint uploadTime
+        string fileName
+        
   );
       //event on file sharing action
        event FileShareUploaded(
@@ -47,8 +50,8 @@ contract Doc2eth{
         string fileHash,
         uint fileSize,
         string fileType,
-        string fileName,
-        uint uploadTime
+        string fileName
+        
   );
         event UserAdded(
         string service,
@@ -95,7 +98,7 @@ contract Doc2eth{
  
 
    // function of uplading a file  
-  function uploadFile(address _address,string memory _fileId,string memory _fileHash, uint _fileSize, string memory _fileType, string memory _fileName) public returns(string memory,string memory,uint, string memory,string memory,uint) {
+  function uploadFile(address _address,string memory _fileId,string memory _fileHash, uint _fileSize, string memory _fileType, string memory _fileName,string memory _key) public returns(string memory,string memory,uint, string memory,string memory) {
 
     require(bytes(_fileHash).length > 0,"Invalid File Hash");
     require(bytes(_fileId).length > 0,"Invalid File ID");
@@ -103,18 +106,20 @@ contract Doc2eth{
     require(bytes(_fileName).length > 0,"Invalid Service Name");
     require(_address != address(0),"Invalid address");
     require(_fileSize>0,"Invalid File Size");
+    require(bytes(_key).length > 0,"Invalid key size");
+    //require(bytes(_iv).length > 0,"Invalid key size");
     
-    users[_address].push(File(_fileId,_fileHash, _fileSize, _fileType, _fileName, now));
+    users[_address].push(File(_fileId,_fileHash, _fileSize, _fileType, _fileName,_key));
+    
 
-
-    emit FileUploaded(_fileId,_fileHash, _fileSize, _fileType, _fileName,now);
+    emit FileUploaded(_fileId,_fileHash, _fileSize, _fileType, _fileName);
 
 
     uint length = users[_address].length;
 
     File memory file = users[_address][length-1];
       
-    return (file.fileId,file.fileHash,file.fileSize,file.fileType,file.fileName,file.uploadTime);
+    return (file.fileId,file.fileHash,file.fileSize,file.fileType,file.fileName);
   }
   
   function getCount(address _address) public view returns(uint){
@@ -124,16 +129,30 @@ contract Doc2eth{
   //return files of current user
 
   function getFilesofUser(uint _index, address _address)
-  public view returns(string memory,string memory,uint, string memory,string memory,uint) {
+  public view returns(string memory,string memory,uint, string memory,string memory) {
       
       
       require(_index>=0);
       
       File memory file = users[_address][_index];
       
-      return (file.fileId,file.fileHash,file.fileSize,file.fileType,file.fileName,file.uploadTime);
+      return (file.fileId,file.fileHash,file.fileSize,file.fileType,file.fileName);
     
   }
+  function getFilekey(uint _index, address _address)
+  public view returns(string memory,string memory,uint, string memory,string memory) {
+      
+      
+      require(_index>=0);
+      
+      File memory file = users[_address][_index];
+      
+      return (file.key);
+    
+  }
+
+
+
     //remove file hash from the blockchain
     function removeHash(string memory _fileId, address _address) public {
       
@@ -149,7 +168,7 @@ contract Doc2eth{
          }
   }
   //share file
-  function uploadShareFile(address _to,string memory _fileId,string memory _fileHash, uint _fileSize, string memory _fileType, string memory _fileName) public returns(string memory,string memory,uint, string memory,string memory,uint) {
+  function uploadShareFile(address _to,string memory _fileId,string memory _fileHash, uint _fileSize, string memory _fileType, string memory _fileName,string memory _key) public returns(string memory,string memory,uint, string memory,string memory) {
 
     require(bytes(_fileHash).length > 0,"Invalid File Hash");
     require(bytes(_fileId).length > 0,"Invalid File ID");
@@ -157,18 +176,20 @@ contract Doc2eth{
     require(bytes(_fileName).length > 0,"Invalid Service Name");
     require(_to!=address(0),"Invalid receiver address");
     require(_fileSize>0,"Invalid File Size");
+    require(bytes(_key).length > 0,"Invalid key size");
+    //require(bytes(_iv).length > 0,"Invalid key size");
     
-    shares[_to].push(File(_fileId,_fileHash, _fileSize, _fileType, _fileName, now));
+    shares[_to].push(File(_fileId,_fileHash, _fileSize, _fileType, _fileName,_key));
 
 
-    emit FileShareUploaded(_fileId,_fileHash, _fileSize, _fileType, _fileName,now);
+    emit FileShareUploaded(_fileId,_fileHash, _fileSize, _fileType, _fileName);
 
 
     uint length = shares[_to].length;
 
     File memory file = shares[_to][length-1];
       
-    return (file.fileId,file.fileHash,file.fileSize,file.fileType,file.fileName,file.uploadTime);
+    return (file.fileId,file.fileHash,file.fileSize,file.fileType,file.fileName);
   }
 
   //get the number of shared files
@@ -178,14 +199,14 @@ contract Doc2eth{
     return shares[_address].length;
   }
   
-  function getShareFilesofUser(uint _index,address _address) public view returns(string memory,string memory,uint, string memory,string memory,uint) {
+  function getShareFilesofUser(uint _index,address _address) public view returns(string memory,string memory,uint, string memory,string memory) {
       
       
       require(_index>=0);
       
       File memory file = shares[_address][_index];
       
-      return (file.fileId,file.fileHash,file.fileSize,file.fileType,file.fileName,file.uploadTime);
+      return (file.fileId,file.fileHash,file.fileSize,file.fileType,file.fileName);
     
   }
     // remove hash of a shred files for current user in the blockchain

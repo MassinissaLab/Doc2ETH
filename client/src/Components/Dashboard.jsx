@@ -9,7 +9,7 @@ import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
 import { ipfs } from "../ipfs.util";
 import Footer from "./Footer";
-import { generateUID,generateKeys,aesKeyiv,encryptAES,decryptAES,mergearrays} from "../utilities";
+import { generateUID,aesKeyiv,encryptAES,decryptAES,mergearrays,urlBlob} from "../utilities";
 import {
   Wrapper,
   Light,
@@ -207,15 +207,28 @@ const Dashboard = () => {
     });
 
     try {
+
+      console.log("Buffer ",state.buffer);
+      const enbuffer = await encryptAES(state.buffer,state.key,state.iv);
+      const fbuffer = await Buffer.from(enbuffer,'base64');
+      
+      console.log("Buffer encryptAES",fbuffer);
+
+      console.log('File Type:', state.type);
+
       const res = await ipfs.add(state.buffer);
 
       console.log("IPFS RESPONSE OF UPLOAD", res);
-      const ipfsPath = '/ipfs/'+res.path;
+
+      
       const FILE_ID = generateUID();
       const FILE_HASH = res.path;
       const FILE_SIZE = res.size;
-
-      //const chunks = await ipfs.cat(ipfsPath);
+      const FILE_KEY = state.key+state.iv;
+      console.log('key concat :',FILE_KEY);
+      //decryption ipfs
+      /*
+      const ipfsPath = '/ipfs/'+res.path;
 
       const chunks = []
         for await (const chunk of ipfs.cat(ipfsPath)) {
@@ -224,36 +237,21 @@ const Dashboard = () => {
 
       const ebuf = await mergearrays(chunks);
       console.log("Merged ",ebuf);
-      //const econtent = ebuf.slice(0).toString('utf8');
-      
-      //const buf = Buffer.concat(edata)
-      //const buf = await Buffer.from(chunks,'utf8');
-      //console.log("Buffer encrpted AES",chunks);
-      //const stbuff = await chunks.slice(0).toString('utf8');
-      
-      //const  econt= Buffer.from(ebuf, 'hex');
+
       const content = await decryptAES(ebuf,state.key,state.iv);
       const buff = Buffer.from(content, 'base64');
       console.log('DECRYPTION --------');
       console.log('key:', state.key, 'iv:', state.iv);
       console.log('content:', content.length);
       console.log("Buffer decrypted AES",buff);
+      console.log('File Type:', state.type);
 
-      const blob = new Blob([buff],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+      const blob = new Blob([buff],{type:state.type});
       const srcBlob = await window.URL.createObjectURL(blob);
       await window.open(srcBlob);
-     /* const test = await Buffer.from(content, 'hex');
-      
-
       */
 
-      //console.log("Buffer decrypted AES hex ",test);
-      
-      //const path = ''+state.name+'';
-
-
-
-      /*
+   
       const uploadedFile = await contract.methods
         .uploadFile(
           window.ethereum.selectedAddress,
@@ -261,7 +259,8 @@ const Dashboard = () => {
           FILE_HASH,
           FILE_SIZE,
           state.type,
-          state.name
+          state.name,
+          FILE_KEY
         )
         .send({ from: accounts[0] });
 
@@ -274,7 +273,7 @@ const Dashboard = () => {
       newAddedFile[4] = uploadedFileDetails.fileName;
       newAddedFile[2] = uploadedFileDetails.fileSize;
       newAddedFile[3] = uploadedFileDetails.fileType;
-      newAddedFile[5] = uploadedFileDetails.uploadTime;
+      
 
       const newFilesArray = [newAddedFile, ...fileData.files];
       
@@ -284,7 +283,7 @@ const Dashboard = () => {
         files: newFilesArray,
       });
 
-      */
+     
       // reset the component state of file upload
       setstate({
         ...state,
@@ -313,21 +312,14 @@ const Dashboard = () => {
     let reader = new window.FileReader();
     reader.readAsArrayBuffer(file);
     //reader.readAsDataURL(file);
-    reader.onloadend = () => convertToBuffer(reader, file.type, file.name);
+    reader.onloadend = () => convertToBuffer(reader,file.type, file.name);
   };
 
   const convertToBuffer = async (reader, type, name) => {
-    const nobuffer = await Buffer.from(reader.result);
+    const buffer = await Buffer.from(reader.result);
 
     const  { key, iv } = await aesKeyiv();
-    const bbuffer = await encryptAES(nobuffer,key,iv);
-    const buffer = await Buffer.from(bbuffer,'base64');
     console.log("AES key & IV = ",{ key, iv });
-    console.log("BUFFER", nobuffer);
-    //console.log("BUFFER length = "+ nobuffer.length +"BUFFER length = "+buffer.length);
-    //console.log("Buffer encryptAES",bbuffer);
-    console.log("Buffer encryptAES",buffer);
-    //console.log("READER file = ",reader);
 
     setstate({
       ...state,
@@ -408,10 +400,10 @@ const Dashboard = () => {
       let newAddedFile = {};
       newAddedFile[0] = uploadedFileDetails.fileId;
       newAddedFile[1] = uploadedFileDetails.fileHash;
-      newAddedFile[4] = uploadedFileDetails.fileName;
       newAddedFile[2] = uploadedFileDetails.fileSize;
       newAddedFile[3] = uploadedFileDetails.fileType;
-      newAddedFile[5] = uploadedFileDetails.uploadTime;
+      newAddedFile[4] = uploadedFileDetails.fileName;
+      
 
       const newFilesArray = [newAddedFile, ...fileData.files];
       console.log(newFilesArray);
@@ -843,17 +835,6 @@ const Dashboard = () => {
             </Align>
             <Align className="v-center">
               <div>
-                <div className="md display">
-                  <i className="fas fa-clock fa-2x"></i>
-                  <p>
-                    {fileData.files.length > 0
-                      ? "Last Uploaded " +
-                        getDateString(
-                          fileData.files[fileData.files.length - 1][5]
-                        )
-                      : "No files Uploaded"}
-                  </p>
-                </div>
               </div>
             </Align>
           </Holder>
