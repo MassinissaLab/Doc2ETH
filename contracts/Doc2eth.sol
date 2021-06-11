@@ -150,6 +150,17 @@ contract Doc2eth{
       return file.key;
     
   }
+  function getSharekey(uint _index, address _address)
+  public view returns(string memory) {
+      
+      
+      require(_index>=0);
+      
+      File memory file = shares[_address][_index];
+      
+      return file.key;
+    
+  }
 
 
 
@@ -177,7 +188,7 @@ contract Doc2eth{
     require(_to!=address(0),"Invalid receiver address");
     require(_fileSize>0,"Invalid File Size");
     require(bytes(_key).length > 0,"Invalid key size");
-    //require(bytes(_iv).length > 0,"Invalid key size");
+    
     
     shares[_to].push(File(_fileId,_fileHash, _fileSize, _fileType, _fileName,_key));
 

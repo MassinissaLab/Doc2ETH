@@ -67,6 +67,7 @@ const Dashboard = () => {
     show: false,
     address: "",
     file: null,
+    ownershipe:"",
   });
   const [searchState, setSearch] = useState({
     searchActive: false,
@@ -225,29 +226,7 @@ const Dashboard = () => {
       const FILE_HASH = res.path;
       const FILE_SIZE = res.size;
       const FILE_KEY = state.key+state.iv;
-      console.log('key concat :',FILE_KEY);
-      //decryption ipfs
-      /*
-      const ipfsPath = '/ipfs/'+res.path;
-      const chunks = []
-        for await (const chunk of ipfs.cat(ipfsPath)) {
-          chunks.push(chunk);
-      }
-      const ebuf = await mergearrays(chunks);
-      console.log("Merged ",ebuf);
-      const content = await decryptAES(ebuf,state.key,state.iv);
-      const buff = Buffer.from(content, 'base64');
-      console.log('DECRYPTION --------');
-      console.log('key:', state.key, 'iv:', state.iv);
-      console.log('content:', content.length);
-      console.log("Buffer decrypted AES",buff);
-      console.log('File Type:', state.type);
-      const blob = new Blob([buff],{type:state.type});
-      const srcBlob = await window.URL.createObjectURL(blob);
-      await window.open(srcBlob);
-      */
 
-   
       const uploadedFile = await contract.methods
         .uploadFile(
           window.ethereum.selectedAddress,
@@ -315,7 +294,7 @@ const Dashboard = () => {
     const buffer = await Buffer.from(reader.result);
 
     const  { key, iv } = await aesKeyiv();
-    console.log("AES key & IV = ",{ key, iv });
+    
 
     setstate({
       ...state,
@@ -328,31 +307,41 @@ const Dashboard = () => {
     });
   };
 
-  const retreiveFile = async (ipfshash,ftype,fname) => {
+  const retreiveFile = async (ipfshash,ftype,fname,option) => {
       const { accounts, contract } = state;
       const ipfsPath = '/ipfs/'+ipfshash;
-      //const FKEY = await contract.methods.getFilekey(fileIndex, window.ethereum.selectedAddress).call();
-
-      
-
-      const filesCount = await contract.methods
-        .getCount(window.ethereum.selectedAddress)
-        .call();
-
 
       var FKEY='';
 
+      if(option === "ownerfile"){
+        const filesCount = await contract.methods
+                .getCount(window.ethereum.selectedAddress)
+                .call();
 
-      for (var fileIndex = 0; fileIndex < filesCount; fileIndex++) {
-        const FILE = await contract.methods
-          .getFilesofUser(fileIndex, window.ethereum.selectedAddress)
-          .call();
-        if (FILE[1] === ipfshash) {
-          FKEY = await contract.methods.getFilekey(fileIndex, window.ethereum.selectedAddress).call();
+
+        for (var fileIndex = 0; fileIndex < filesCount; fileIndex++) {
+          const FILE = await contract.methods
+            .getFilesofUser(fileIndex, window.ethereum.selectedAddress)
+            .call();
+          if (FILE[1] === ipfshash) {
+            FKEY = await contract.methods.getFilekey(fileIndex, window.ethereum.selectedAddress).call();
+          }
+        }
+      }else{
+
+        const filesShareCount = await contract.methods.getShareCount(window.ethereum.selectedAddress).call();
+        for (var fileIndex = 0; fileIndex < filesShareCount; fileIndex++) {
+          const FILE = await contract.methods
+            .getShareFilesofUser(fileIndex, window.ethereum.selectedAddress)
+            .call();
+          if (FILE[1] === ipfshash) {
+            FKEY = await contract.methods.getSharekey(fileIndex, window.ethereum.selectedAddress).call();
+          }
         }
       }
-      console.log(FKEY);
-      console.log(fname,ftype);
+
+      console.log(FKEY,fname,ftype);
+      
       
       var aeskey = FKEY.slice(0,32);
       var aesiv = FKEY.slice(32,48)
@@ -361,9 +350,8 @@ const Dashboard = () => {
         for await (const chunk of ipfs.cat(ipfsPath)) {
           chunks.push(chunk);
       }
-      const ebuf = await mergearrays(chunks);
-      console.log("Merged ",ebuf);
-      
+
+      const ebuf = await mergearrays(chunks);      
       const content = await decryptAES(ebuf,aeskey,aesiv);
       const buff = Buffer.from(content, 'base64');
       console.log('DECRYPTION --------');
@@ -412,7 +400,7 @@ const Dashboard = () => {
     }
   };
 
-  const shareFile = async (file, to_address) => {
+  const shareFile = async (file, to_address,option) => {
     const { accounts, contract } = state;
 
     console.log("Share File");
@@ -427,6 +415,34 @@ const Dashboard = () => {
       const FILE_HASH = file[1];
       const FILE_SIZE = file[2];
 
+    var FKEY='';
+
+          if(option === "ownerfile"){
+            const filesCount = await contract.methods
+                    .getCount(window.ethereum.selectedAddress)
+                    .call();
+
+
+            for (var fileIndex = 0; fileIndex < filesCount; fileIndex++) {
+              const FILE = await contract.methods
+                .getFilesofUser(fileIndex, window.ethereum.selectedAddress)
+                .call();
+              if (FILE[1] === FILE_HASH) {
+                FKEY = await contract.methods.getFilekey(fileIndex, window.ethereum.selectedAddress).call();
+              }
+            }
+          }else{
+
+            const filesShareCount = await contract.methods.getShareCount(window.ethereum.selectedAddress).call();
+            for (var fileIndex = 0; fileIndex < filesShareCount; fileIndex++) {
+              const FILE = await contract.methods
+                .getShareFilesofUser(fileIndex, window.ethereum.selectedAddress)
+                .call();
+              if (FILE[1] === FILE_HASH) {
+                FKEY = await contract.methods.getSharekey(fileIndex, window.ethereum.selectedAddress).call();
+              }
+            }
+          }
       const uploadedFile = await contract.methods
         .uploadShareFile(
           to_address,
@@ -434,7 +450,8 @@ const Dashboard = () => {
           FILE_HASH,
           FILE_SIZE,
           file[3],
-          file[4]
+          file[4],
+          FKEY
         )
         .send({ from: accounts[0] });
       console.log(uploadedFile);
@@ -520,7 +537,7 @@ const Dashboard = () => {
                     <p
                       onClick={() =>
                         //window.open(`https://gateway.ipfs.io/ipfs/${e[1]}`)
-                        retreiveFile(e[1],e[3],e[4])
+                        retreiveFile(e[1],e[3],e[4],"ownerfile")
                       }
                     >
                       <i className="fas fa-download primary"></i>
@@ -596,7 +613,7 @@ const Dashboard = () => {
                       <p
                         onClick={() =>
                           //window.open(`https://gateway.ipfs.io/ipfs/${e[1]}`)
-                          retreiveFile(e[1],e[3],e[4])
+                          retreiveFile(e[1],e[3],e[4],"ownerfile")
                           
                         }
                       >
@@ -615,6 +632,7 @@ const Dashboard = () => {
                             ...showShareModal,
                             file: e,
                             show: true,
+                            ownershipe:"ownerfile",
                           })
                         }
                       >
@@ -675,7 +693,7 @@ const Dashboard = () => {
                   <div className="ml-2 w-sm">
                     <p
                       onClick={() =>
-                        window.open(`https://gateway.ipfs.io/ipfs/${e[1]}`)
+                        retreiveFile(e[1],e[3],e[4],"sharedfile")
                       }
                     >
                       <i className="fas fa-download primary"></i>
@@ -693,6 +711,7 @@ const Dashboard = () => {
                           ...showShareModal,
                           file: e,
                           show: true,
+                          ownershipe:"ownerfile",
                         })
                       }
                     >
@@ -761,13 +780,14 @@ const Dashboard = () => {
                 <div
                   onClick={() => {
                     console.log("Shared to : "+showShareModal.address);
-                    shareFile(showShareModal.file, showShareModal.address);
+                    shareFile(showShareModal.file, showShareModal.address,showShareModal.ownershipe);
 
                     setShareModal({
                       ...showShareModal,
                       show: false,
                       file: null,
                       address: "",
+                      ownershipe:"",
                     });
                   }}
                   className="s-btn"
