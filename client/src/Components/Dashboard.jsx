@@ -333,11 +333,12 @@ const Dashboard = () => {
   };
 
   const retreiveFile = async (fileIndex,ipfshash) => {
-      const { accounts, contract } = state;
+      const { accounts,web3, contract } = state;
       const ipfsPath = '/ipfs/'+ipfshash;
       const FKEY = await contract.methods.getFilekey(fileIndex, window.ethereum.selectedAddress).call();
 
       console.log('concat key ' ,FKEY);
+
        
       /*
       const chunks = []
@@ -582,7 +583,11 @@ const Dashboard = () => {
                       <p
                         onClick={() =>
                           //window.open(`https://gateway.ipfs.io/ipfs/${e[1]}`)
-                          retreiveFile(index,e[1])
+                          {
+                            
+                            retreiveFile(index,e[1])
+                          }
+                          
                           
                         }
                       >
