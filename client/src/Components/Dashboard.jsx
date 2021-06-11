@@ -216,7 +216,7 @@ const Dashboard = () => {
 
       console.log('File Type:', state.type);
 
-      const res = await ipfs.add(state.buffer);
+      const res = await ipfs.add(fbuffer);
 
       console.log("IPFS RESPONSE OF UPLOAD", res);
 
@@ -229,15 +229,12 @@ const Dashboard = () => {
       //decryption ipfs
       /*
       const ipfsPath = '/ipfs/'+res.path;
-
       const chunks = []
         for await (const chunk of ipfs.cat(ipfsPath)) {
           chunks.push(chunk);
       }
-
       const ebuf = await mergearrays(chunks);
       console.log("Merged ",ebuf);
-
       const content = await decryptAES(ebuf,state.key,state.iv);
       const buff = Buffer.from(content, 'base64');
       console.log('DECRYPTION --------');
@@ -245,7 +242,6 @@ const Dashboard = () => {
       console.log('content:', content.length);
       console.log("Buffer decrypted AES",buff);
       console.log('File Type:', state.type);
-
       const blob = new Blob([buff],{type:state.type});
       const srcBlob = await window.URL.createObjectURL(blob);
       await window.open(srcBlob);
@@ -332,36 +328,52 @@ const Dashboard = () => {
     });
   };
 
-  const retreiveFile = async (fileIndex,ipfshash) => {
-      const { accounts,web3, contract } = state;
+  const retreiveFile = async (ipfshash,ftype,fname) => {
+      const { accounts, contract } = state;
       const ipfsPath = '/ipfs/'+ipfshash;
-      const FKEY = await contract.methods.getFilekey(fileIndex, window.ethereum.selectedAddress).call();
+      //const FKEY = await contract.methods.getFilekey(fileIndex, window.ethereum.selectedAddress).call();
 
-      console.log('concat key ' ,FKEY);
+      
 
-       
-      /*
+      const filesCount = await contract.methods
+        .getCount(window.ethereum.selectedAddress)
+        .call();
+
+
+      var FKEY='';
+
+
+      for (var fileIndex = 0; fileIndex < filesCount; fileIndex++) {
+        const FILE = await contract.methods
+          .getFilesofUser(fileIndex, window.ethereum.selectedAddress)
+          .call();
+        if (FILE[1] === ipfshash) {
+          FKEY = await contract.methods.getFilekey(fileIndex, window.ethereum.selectedAddress).call();
+        }
+      }
+      console.log(FKEY);
+      console.log(fname,ftype);
+      
+      var aeskey = FKEY.slice(0,32);
+      var aesiv = FKEY.slice(32,48)
+      
       const chunks = []
         for await (const chunk of ipfs.cat(ipfsPath)) {
           chunks.push(chunk);
       }
-
       const ebuf = await mergearrays(chunks);
       console.log("Merged ",ebuf);
-
       
-      const content = await decryptAES(ebuf,state.key,state.iv);
+      const content = await decryptAES(ebuf,aeskey,aesiv);
       const buff = Buffer.from(content, 'base64');
       console.log('DECRYPTION --------');
-      console.log('key:', state.key, 'iv:', state.iv);
-      console.log('content:', content.length);
+      console.log('key:', aeskey, 'iv:', aesiv);
       console.log("Buffer decrypted AES",buff);
-      console.log('File Type:', state.type);
-
-      const blob = new Blob([buff],{type:state.type});
+      
+      const blob = new Blob([buff],{type:ftype});
       const srcBlob = await window.URL.createObjectURL(blob);
       await window.open(srcBlob);
-      */
+      
       
   };
 
@@ -507,7 +519,8 @@ const Dashboard = () => {
                   <div className="ml-2 w-sm">
                     <p
                       onClick={() =>
-                        window.open(`https://gateway.ipfs.io/ipfs/${e[1]}`)
+                        //window.open(`https://gateway.ipfs.io/ipfs/${e[1]}`)
+                        retreiveFile(e[1],e[3],e[4])
                       }
                     >
                       <i className="fas fa-download primary"></i>
@@ -583,11 +596,7 @@ const Dashboard = () => {
                       <p
                         onClick={() =>
                           //window.open(`https://gateway.ipfs.io/ipfs/${e[1]}`)
-                          {
-                            
-                            retreiveFile(index,e[1])
-                          }
-                          
+                          retreiveFile(e[1],e[3],e[4])
                           
                         }
                       >
@@ -736,15 +745,15 @@ const Dashboard = () => {
             <div className="head-con">Share to</div>
             <div>
                 <select className="a-input" defaultValue ="choose" onChange={(e) => {
-							                	setShareModal({...showShareModal,
-							                		address: e.target.value,
-							                		})
-							                	}}>
-					<option  value="choose" disabled  hidden>Please Choose a receiver...</option>
-		            {allUsers.infousers.map((userinfos) => (
-		              <option className="md-vlist" value={userinfos.uaddress}>{userinfos.userservice}{" | "}{userinfos.ufirstname}{" "}{userinfos.ulastname}</option>
-		            ))}
-		        </select>
+                                setShareModal({...showShareModal,
+                                  address: e.target.value,
+                                  })
+                                }}>
+          <option  value="choose" disabled  hidden>Please Choose a receiver...</option>
+                {allUsers.infousers.map((userinfos) => (
+                  <option className="md-vlist" value={userinfos.uaddress}>{userinfos.userservice}{" | "}{userinfos.ufirstname}{" "}{userinfos.ulastname}</option>
+                ))}
+            </select>
 
             </div>
             <div>

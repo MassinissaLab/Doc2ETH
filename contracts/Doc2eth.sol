@@ -140,14 +140,14 @@ contract Doc2eth{
     
   }
   function getFilekey(uint _index, address _address)
-  public view returns(string memory,string memory,uint, string memory,string memory) {
+  public view returns(string memory) {
       
       
       require(_index>=0);
       
       File memory file = users[_address][_index];
       
-      return (file.key);
+      return file.key;
     
   }
 
