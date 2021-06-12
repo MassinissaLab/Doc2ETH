@@ -10,6 +10,7 @@ import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
 import { ipfs } from "../ipfs.util";
 import Footer from "./Footer";
+import DocViewer from "react-doc-viewer";
 import { generateUID,aesKeyiv,encryptAES,decryptAES,mergearrays,urlBlob} from "../utilities";
 import {
   Wrapper,
@@ -382,7 +383,31 @@ const Dashboard = () => {
       
       const blob = new Blob([buff],{type:ftype});
       const srcBlob = await window.URL.createObjectURL(blob);
-      await window.open(srcBlob);
+      const docs = [{ uri: srcBlob },];
+      const win = window.open("","_blank","titlebar=yes,width = 800, height = 600");
+      //return <DocViewer documents={docs} />;
+      //await window.open(srcBlob);
+      if (win) {
+      const document = `<html>
+                    <head>
+                      <title>${fname}</title>
+                      <link href="core/css/bootstrap.min.css" rel="stylesheet">
+                      <link href="core/css/bell.css" rel="stylesheet">
+                      <link href="core/css/global-connector.css" rel="stylesheet">
+                    </head>
+                    <body>
+                      <div style="background-color:#fff">
+                        <br />
+                        <a class="btn btn-secondary floatR"
+                          
+                        >Download</a>
+                        <br />
+                        <DocViewer documents=${docs} />
+                      </div>
+                    </body>
+                  </html>`;
+      win.document.write(document);
+    }
       
       
   };

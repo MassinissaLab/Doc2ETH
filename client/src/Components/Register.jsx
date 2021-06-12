@@ -1,7 +1,7 @@
 import React, { useEffect, useState} from "react";
 import { useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
-
+import { Textbox } from 'react-inputs-validation';
 //components and utilities import
 import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
@@ -91,43 +91,74 @@ useEffect(() => {
           <div className="add-form">
             <div className="head-con">Register To Wallets Book</div>
             <div>
-              <input
-                onChange={(e) => {
+              <Textbox
+                  attributesInput={{ // Optional.
+                    id: 'servicename',
+                    name: 'Service',
+                    type: 'text',
+                    placeholder: 'Place your service name',
+                    className : 'a-input',
+                  }}
+
+                onChange={(name,e) => {
                   setAddUser({
                     ...showAddUser,
                     servicename: e.target.value,
                   });
                 }}
+                onBlur={(e) => {console.log(e)}}
                 className="a-input"
-                type="text"
-                placeholder="Service name"
-                name="service"
-                
+                validationOption={{
+                    name: 'Service',
+                    check: true, 
+                    required: true 
+                  }}
+
               />
-              <input
-                onChange={(e) => {
+              <Textbox
+                attributesInput={{ // Optional.
+                    id: 'firstname',
+                    name: 'First name',
+                    type: 'text',
+                    placeholder: 'Place your first name',
+                    className : 'a-input',
+                  }}
+                onChange={(name,e) => {
                   setAddUser({
                     ...showAddUser,
                     firstname: e.target.value,
                   });
                 }}
-                className="a-input"
-                type="text"
-                placeholder="First Name"
-                name="firstname"
+
+                onBlur={(e) => {console.log(e)}}
+                validationOption={{
+                    name: 'Firs tname',
+                    check: true, 
+                    required: true 
+                  }}
                 
               />
-              <input
-                onChange={(e) => {
+              <Textbox
+                attributesInput={{ // Optional.
+                    id: 'lastname',
+                    name: 'Last name',
+                    type: 'text',
+                    placeholder: 'Place your last name',
+                    className : 'a-input',
+                  }}
+                onChange={(name,e) => {
                   setAddUser({
                     ...showAddUser,
                     lastname: e.target.value,
                   });
                 }}
-                className="a-input"
-                type="text"
-                placeholder="Last Name"
-                name="lasttname"
+                onBlur={(e) => {console.log(e)}}
+                validationOption={{
+                    name: 'Last name',
+                    check: true, 
+                    required: true 
+                  }}
+
                 
               />
             </div>
