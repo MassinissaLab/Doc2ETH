@@ -4,6 +4,8 @@ import Dashboard from "./Components/Dashboard";
 import Register from "./Components/Register";
 import { Route, BrowserRouter as Router } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import { positions, Provider,transitions } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -18,16 +20,26 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Helvetica';
   }
 `;
+const options = {
+  timeout: 2000,
+  position: positions.TOP_CENTER,
+  offset: '30px',
+  transition: transitions.FADE,
+
+};
+
 class App extends Component {
   render() {
     return (
       <>
-        <GlobalStyle />
-        <Router>
-          <Route exact path="/" component={Home} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/register" component={Register} />
-        </Router>
+        <Provider template={AlertTemplate} {...options}>
+          <GlobalStyle />
+          <Router>
+            <Route exact path="/" component={Home} />
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/register" component={Register} />
+          </Router>
+        </Provider>
       </>
     );
   }

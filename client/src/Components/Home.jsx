@@ -3,9 +3,10 @@ import { useHistory } from "react-router-dom";
 import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
 import Footer from "./Footer";
-
+import { useAlert } from "react-alert";
 
 const Home = () => {
+  const alert = useAlert();
   const [isConnected, setConnected] = useState(null);
   const history = useHistory();
   const [open, setOpen] = useState(false);
@@ -56,13 +57,15 @@ const Home = () => {
 
       const userExists = await allusers.some(user => user.uaddress === accounts[0]);
       if(userExists) {
-         console.log(" exist "+accounts[0]);
+         
          history.push("/dashboard");
          
       }else{
 
             console.log(" Please add your wallet address to the network "+accounts[0]);
             history.push("/register");
+            alert.show("Please add your wallet address to DOC2ETH!");
+
              
             
   
@@ -70,9 +73,7 @@ const Home = () => {
 
       
     } catch (error) {
-      alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`
-      );
+      alert.error("Failed to load web3, accounts, or contract. Check console for details");
       console.error(error);
     }
   };

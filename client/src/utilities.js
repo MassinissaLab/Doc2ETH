@@ -8,22 +8,6 @@ export const generateUID = () => {
   return firstPart + secondPart;
 };
 
-export const generateKeys = () => {
-  const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
-    modulusLength: 4096,
-    publicKeyEncoding: {
-      type: 'pkcs1',
-      format: 'pem',
-    },
-    privateKeyEncoding: {
-      type: 'pkcs1',
-      format: 'pem',
-      cipher: 'aes-256-cbc',
-      passphrase: '',
-    },
-  })
-  return { privateKey, publicKey };
-};
 
 export const aesKeyiv = () => {
 	const key = crypto.randomBytes(16).toString('hex'); // 16 bytes -> 32 chars

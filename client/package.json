@@ -15,6 +15,8 @@
         "level-js": "^2.2.4",
         "openpgp": "^5.0.0-3",
         "react": "16.11.0",
+        "react-alert": "^7.0.3",
+        "react-alert-template-basic": "^1.0.2",
         "react-awesome-popover": "^6.1.1",
         "react-blockies": "^1.4.1",
         "react-dom": "16.11.0",

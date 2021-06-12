@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from "react";
 import { useHistory } from "react-router-dom";
-
+import { useAlert } from "react-alert";
 
 //components and utilities import
 import getWeb3 from "../getWeb3";
@@ -9,6 +9,7 @@ import Footer from "./Footer";
 
 
 const Register = () => {
+const alert = useAlert();  
 const [showAddUser, setAddUser] = useState({
   servicename: "",
   firstname: "",
@@ -66,13 +67,14 @@ useEffect(() => {
             _adress
           ).send({ from: state.accounts[0] });
       console.log("User added : "+_service+"|"+_firstname+"|"+_lastname+"|"+_adress);
-      alert(_firstname+" "+_lastname+ ",Your Information are added sucessfully");
+       //alert(_firstname+" "+_lastname+ ",Your Information are added sucessfully");
+       
+       alert.success(_firstname+" "+_lastname+ ",Your Information are added sucessfully");
        history.push("/");
-      
     } catch (error) {
-      alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`
-      );
+
+      alert.error("Failed to load web3, accounts, or contract. Check console for details!");
+      //alert(`Failed to load web3, accounts, or contract. Check console for details.`);
       console.error(error);
     }
   };
@@ -135,7 +137,7 @@ useEffect(() => {
                   onClick={() => {
                    
                     if(showAddUser.servicename==="" ||showAddUser.firstname==="" ||showAddUser.lastname===""){
-                       alert( 'Please ,fill all the input fields');
+                       alert.show( 'Please ,fill all the input fields');
 
                     }else{
                       console.log("clicked register @ wallet "+state.accounts[0]);

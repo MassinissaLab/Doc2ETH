@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import Popover from "react-awesome-popover";
 import Blockies from "react-blockies";
+import { useAlert } from "react-alert";
 //components and utilities import
 import usdb from "../media/UnivBlida.png"
 import ifeg from "../media/logo_ifeg.png"
@@ -35,7 +36,7 @@ const crypto = require('crypto');
 const Dashboard = () => {
   const hiddenFileInput = useRef();
   const history = useHistory();
-
+  const alert = useAlert();
   const [state, setstate] = useState({
     accounts: null,
     web3: null,
@@ -199,15 +200,32 @@ const Dashboard = () => {
 
   const handleSubmit = async () => {
     const { accounts, contract } = state;
+    const fileExists = await fileData.files.some(file => file[4] === state.name);
 
+
+    
     console.log("IPFS UPLOAD");
-    //console.log(state.buffer);
+    
     setstate({
       ...state,
       loading: true,
     });
 
     try {
+
+      if(fileExists){
+          alert.show("Your file is already uploaded ");
+          setstate({
+            ...state,
+            buffer: null,
+            name: null,
+            type: null,
+            key : null,
+            iv : null,
+            loading: false,
+          });
+
+      }else{ 
 
       console.log("Buffer ",state.buffer);
       const enbuffer = await encryptAES(state.buffer,state.key,state.iv);
@@ -257,7 +275,7 @@ const Dashboard = () => {
         ...fileData,
         files: newFilesArray,
       });
-
+      alert.success("File uploaded Successfuly");
      
       // reset the component state of file upload
       setstate({
@@ -269,12 +287,16 @@ const Dashboard = () => {
         iv : null,
         loading: false,
       });
+
+      }
+      
     } catch (error) {
       setstate({
         ...state,
         ipfsError: "IPFS Upload Error",
         loading: false,
       });
+
       console.log("ERROR IPFS", error);
     }
   };
