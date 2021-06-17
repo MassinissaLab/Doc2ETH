@@ -59,6 +59,7 @@ useEffect(() => {
 
   const RegisterHandler = async(_service,_firstname,_lastname,_adress) => {
     try {
+
       const adduser = await state.contract.methods
           .addUser(
             _service,
@@ -66,15 +67,16 @@ useEffect(() => {
             _lastname,
             _adress
           ).send({ from: state.accounts[0] });
-      console.log("User added : "+_service+"|"+_firstname+"|"+_lastname+"|"+_adress);
-       //alert(_firstname+" "+_lastname+ ",Your Information are added sucessfully");
+      
+       
        
        alert.success(_firstname+" "+_lastname+ ",Your Information are added sucessfully");
        history.push("/");
+       
     } catch (error) {
 
       alert.error("Failed to load web3, accounts, or contract. Check console for details!");
-      //alert(`Failed to load web3, accounts, or contract. Check console for details.`);
+      history.push("/");
       console.error(error);
     }
   };
@@ -98,14 +100,16 @@ useEffect(() => {
                     type: 'text',
                     placeholder: 'Place your service name',
                     className : 'a-input',
+                    
                   }}
 
                 onChange={(name,e) => {
                   setAddUser({
                     ...showAddUser,
-                    servicename: e.target.value,
+                    servicename: e.target.value.replace(/[^a-zA-Z\s]/g,""),
                   });
                 }}
+                value={showAddUser.servicename}
                 onBlur={(e) => {console.log(e)}}
                 className="a-input"
                 validationOption={{
@@ -122,14 +126,15 @@ useEffect(() => {
                     type: 'text',
                     placeholder: 'Place your first name',
                     className : 'a-input',
+
                   }}
                 onChange={(name,e) => {
                   setAddUser({
                     ...showAddUser,
-                    firstname: e.target.value,
+                    firstname: e.target.value.replace(/[^a-zA-Z\s]/g,""),
                   });
                 }}
-
+                value= {showAddUser.firstname}
                 onBlur={(e) => {console.log(e)}}
                 validationOption={{
                     name: 'Firs tname',
@@ -145,13 +150,15 @@ useEffect(() => {
                     type: 'text',
                     placeholder: 'Place your last name',
                     className : 'a-input',
+                    
                   }}
                 onChange={(name,e) => {
                   setAddUser({
                     ...showAddUser,
-                    lastname: e.target.value,
+                    lastname: e.target.value.replace(/[^a-zA-Z\s]/g,""),
                   });
                 }}
+                value={showAddUser.lastname}
                 onBlur={(e) => {console.log(e)}}
                 validationOption={{
                     name: 'Last name',
@@ -168,7 +175,7 @@ useEffect(() => {
                   onClick={() => {
                    
                     if(showAddUser.servicename==="" ||showAddUser.firstname==="" ||showAddUser.lastname===""){
-                       alert.show( 'Please ,fill all the input fields');
+                       alert.show( 'Please ,fill all the input fields or remove speciale caracters');
 
                     }else{
                       console.log("clicked register @ wallet "+state.accounts[0]);

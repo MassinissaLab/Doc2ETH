@@ -10,18 +10,19 @@ const Home = () => {
   const [isConnected, setConnected] = useState(null);
   const history = useHistory();
   const [open, setOpen] = useState(false);
+  const [isChecked, setChecked] = useState(null);
 
 
 
   useEffect(() => {
-    //setMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+    
     const currentAddress = window.ethereum.selectedAddress;
-    if (currentAddress) {
+    if (currentAddress & isChecked === true) {
       setConnected(true);
-      console.log("useEffect");
-      //history.push("/dashboard");
+      history.push("/dashboard");
     } else {
       setConnected(false);
+      
     }
   });
 
@@ -29,17 +30,16 @@ const Home = () => {
 
   const authHandler = async () => {
     try {
-      //modified 
+   
       const web3 = await getWeb3();
       const accounts = await web3.eth.getAccounts();
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = Doc2eth.networks[networkId];
-
-
       const instance = new web3.eth.Contract(
         Doc2eth.abi,
         deployedNetwork && deployedNetwork.address
       );
+
 
       let allusers = [];
        
@@ -57,18 +57,13 @@ const Home = () => {
 
       const userExists = await allusers.some(user => user.uaddress === accounts[0]);
       if(userExists) {
-         
+         setChecked(true);
          history.push("/dashboard");
+
          
       }else{
-
-            console.log(" Please add your wallet address to the network "+accounts[0]);
             history.push("/register");
             alert.show("Please add your wallet address to DOC2ETH!");
-
-             
-            
-  
       }
 
       

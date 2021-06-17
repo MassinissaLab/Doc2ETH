@@ -10,7 +10,7 @@ import getWeb3 from "../getWeb3";
 import Doc2eth from "../contracts/Doc2eth.json";
 import { ipfs } from "../ipfs.util";
 import Footer from "./Footer";
-import DocViewer from "react-doc-viewer";
+
 import { generateUID,aesKeyiv,encryptAES,decryptAES,mergearrays,urlBlob} from "../utilities";
 import {
   Wrapper,
@@ -60,6 +60,9 @@ const Dashboard = () => {
 
   const [fileData, setFiles] = useState({
     files: [],
+  });
+  const [viewDoc, setDoc] = useState({
+    docs: null,
   });
 
   const [sharedFiles, setSharedFiles] = useState({
@@ -202,7 +205,9 @@ const Dashboard = () => {
   const handleSubmit = async () => {
     const { accounts, contract } = state;
     const fileExists = await fileData.files.some(file => file[4] === state.name);
-
+    const ext =["pdf","docx","pptx","xlsx","png","jpeg"];
+    var ef =  state.name.split(".");
+    const extExists = await ext.some(ee => ee === ef[1]);
 
     
     console.log("IPFS UPLOAD");
@@ -214,7 +219,20 @@ const Dashboard = () => {
 
     try {
 
-      if(fileExists){
+      if(!extExists){
+        alert.error("This type of  data files is not allowed!");
+        setstate({
+            ...state,
+            buffer: null,
+            name: null,
+            type: null,
+            key : null,
+            iv : null,
+            loading: false,
+          });
+
+      
+       }else if(fileExists){
           alert.show("Your file is already uploaded ");
           setstate({
             ...state,
@@ -309,7 +327,6 @@ const Dashboard = () => {
     const file = e.target.files[0];
     let reader = new window.FileReader();
     reader.readAsArrayBuffer(file);
-    //reader.readAsDataURL(file);
     reader.onloadend = () => convertToBuffer(reader,file.type, file.name);
   };
 
@@ -383,31 +400,12 @@ const Dashboard = () => {
       
       const blob = new Blob([buff],{type:ftype});
       const srcBlob = await window.URL.createObjectURL(blob);
-      const docs = [{ uri: srcBlob },];
-      const win = window.open("","_blank","titlebar=yes,width = 800, height = 600");
+
+      //const docs = [{ uri: srcBlob },];
+      //const win = window.open("","_blank","titlebar=yes,width = 800, height = 600");
       //return <DocViewer documents={docs} />;
-      //await window.open(srcBlob);
-      if (win) {
-      const document = `<html>
-                    <head>
-                      <title>${fname}</title>
-                      <link href="core/css/bootstrap.min.css" rel="stylesheet">
-                      <link href="core/css/bell.css" rel="stylesheet">
-                      <link href="core/css/global-connector.css" rel="stylesheet">
-                    </head>
-                    <body>
-                      <div style="background-color:#fff">
-                        <br />
-                        <a class="btn btn-secondary floatR"
-                          
-                        >Download</a>
-                        <br />
-                        <DocViewer documents=${docs} />
-                      </div>
-                    </body>
-                  </html>`;
-      win.document.write(document);
-    }
+      await window.open(srcBlob);
+
       
       
   };
@@ -490,6 +488,7 @@ const Dashboard = () => {
               }
             }
           }
+
       const uploadedFile = await contract.methods
         .uploadShareFile(
           to_address,
@@ -501,6 +500,8 @@ const Dashboard = () => {
           FKEY
         )
         .send({ from: accounts[0] });
+
+        
       console.log(uploadedFile);
       const uploadedFileDetails =
         uploadedFile.events.FileShareUploaded.returnValues;
@@ -551,6 +552,8 @@ const Dashboard = () => {
       }, 2000);
     }
   };
+
+
 
   const Files = () => {
     if (searchState.searchActive) {
@@ -798,10 +801,6 @@ const Dashboard = () => {
     }
   };
 
-  const getDateString = (timestamp) => {
-    const date = new Date(parseInt(timestamp) * 1000);
-    return date.toDateString();
-  };
 
   return (
     <div>
@@ -949,6 +948,14 @@ const Dashboard = () => {
               </div>
             </Align>
             <Align className="v-center">
+             <Align className="v-center">
+              <div>
+                <div className="md display">
+                  <i className="fas fas fa-file-import md-v"></i>{" "}
+                  <p>{sharedFiles.files.length} Shared Files</p>
+                </div>
+              </div>
+            </Align>
               <div>
               </div>
             </Align>

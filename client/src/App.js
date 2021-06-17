@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Home from "./Components/Home";
 import Dashboard from "./Components/Dashboard";
 import Register from "./Components/Register";
+import ViewerDoc from "./Components/DocViewer";
 import { Route, BrowserRouter as Router } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import { positions, Provider,transitions } from "react-alert";
@@ -38,6 +39,7 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/register" component={Register} />
+            <Route path="/docviewer" component={ViewerDoc} />
           </Router>
         </Provider>
       </>
