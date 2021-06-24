@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import Popover from "react-awesome-popover";
 import Blockies from "react-blockies";
 import { useAlert } from "react-alert";
+import { useIdleTimer } from 'react-idle-timer'
 //components and utilities import
 import usdb from "../media/UnivBlida.png"
 import ifeg from "../media/logo_ifeg.png"
@@ -52,6 +53,45 @@ const Dashboard = () => {
     ipfsError: null,
     loading: false,
   });
+  const timeout = 20000;
+  const [remaining, setRemaining] = useState(timeout);
+  const [elapsed, setElapsed] = useState(0);
+  const [lastActive, setLastActive] = useState(+new Date());
+  const [isIdle, setIsIdle] = useState(false);
+
+  
+  const handleOnIdle = () => history.push("/");
+
+  const {
+    reset,
+    pause,
+    resume,
+    getRemainingTime,
+    getLastActiveTime,
+    getElapsedTime
+  } = useIdleTimer({
+    timeout,
+    onIdle: handleOnIdle
+  });
+
+  const handleReset = () => reset();
+  const handlePause = () => pause();
+  const handleResume = () => resume();
+
+  useEffect(() => {
+    setRemaining(getRemainingTime());
+    setLastActive(getLastActiveTime());
+    setElapsed(getElapsedTime());
+
+    setInterval(() => {
+      setRemaining(getRemainingTime());
+      setLastActive(getLastActiveTime());
+      setElapsed(getElapsedTime());
+    }, 1000);
+
+
+
+  }, []);
 
   const [allUsers, setUsers] = useState({
     infousers: [],
@@ -61,9 +101,7 @@ const Dashboard = () => {
   const [fileData, setFiles] = useState({
     files: [],
   });
-  const [viewDoc, setDoc] = useState({
-    docs: null,
-  });
+
 
   const [sharedFiles, setSharedFiles] = useState({
     files: [],
@@ -82,9 +120,10 @@ const Dashboard = () => {
   useEffect(() => {
     const address = window.ethereum.selectedAddress;
 
-    if (address === null) {
+    if (address === null ){
       history.push("/");
     }
+    
     setup();
   }, []);
 
@@ -868,7 +907,7 @@ const Dashboard = () => {
           <div>
             <p>
               <i className="fab fa-ethereum "></i> Doc2eth |{" "}
-              <Light> Decentralized & Secured data files transfer and storage. </Light>
+              <Light> Decentralized & Secured data files transfer and storage.</Light>
             </p>
           </div>
           <div>

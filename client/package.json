@@ -21,6 +21,7 @@
         "react-blockies": "^1.4.1",
         "react-doc-viewer": "^0.1.5",
         "react-dom": "16.11.0",
+        "react-idle-timer": "^4.6.4",
         "react-inputs-validation": "^4.8.3",
         "react-router-dom": "^5.2.0",
         "react-scripts": "3.2.0",
