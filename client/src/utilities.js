@@ -48,8 +48,6 @@ export const mergearrays = (arraylist) => {
 	  offset += item.length;
 	});
 
-
-
 	return mergedArray;
 
 };

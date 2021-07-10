@@ -53,7 +53,7 @@ const Dashboard = () => {
     ipfsError: null,
     loading: false,
   });
-  const timeout = 20000;
+  const timeout = 100000;
   const [remaining, setRemaining] = useState(timeout);
   const [elapsed, setElapsed] = useState(0);
   const [lastActive, setLastActive] = useState(+new Date());
@@ -903,6 +903,7 @@ const Dashboard = () => {
         </div>
       ) : null}
       <Bar>
+        <link href="../client/fontawesome-free-5.15.3-web/css/all.css" rel="stylesheet"/>
         <Flex>
           <div>
             <p>
